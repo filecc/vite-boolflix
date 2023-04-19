@@ -1,0 +1,24 @@
+@use '_variables.scss' as *;
+
+
+/* BOOTSTRAP IMPORT */
+@import "bootstrap/scss/functions";
+
+// variables override
+$primary: $fg-primary;
+
+@import "bootstrap/scss/variables";
+
+// adding custom colors
+$custom-colors: (
+ // custom color "fg-body": $fg-body,
+ 
+);
+// Merge the maps of colors
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/bootstrap";
+
