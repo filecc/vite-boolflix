@@ -1,5 +1,5 @@
 <template>
-    <div class="p-2">
+    <div class="p-2 mainContainer">
         <h2 class="pt-5">Film Popolari</h2>
         <div @wheel="scroll" id="containerMoviesPopular">
             <router-link v-for="movie in movies.list" :to="'/movie/'+ movie.id + '-' + movie.title">
@@ -46,5 +46,9 @@
     gap: 1rem;
     overflow-x: auto;
     overflow-y: hidden;
+}
+.mainContainer{
+    min-height: 100dvh;
+   
 }
 </style>

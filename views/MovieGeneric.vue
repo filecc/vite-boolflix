@@ -2,16 +2,21 @@
     <div v-if="store.loading">
         <Loader />
     </div>
-    <div v-else :style="'background-image:url(' + backdrop + ');'" class="py-4 mainDiv shadow">
-        <h3 class="text-center text-white pt-5">{{ title }}</h3>
-        <div class="py-2 px-1 px-md-4 rounded poster mx-auto m-md-0">
-            <img class="img-fluid rounded" :src="url" :alt="title">
+    <div v-else class="mainDiv">
+        <div class="backdrop" :style="'background-image: url(' + backdrop + ');'">
+            <h3 class="text-center text-white pt-5">{{ title }}</h3>
+            <div class="py-2 px-1 px-md-4 rounded poster mx-auto m-md-0">
+                <img class="img-fluid rounded" :src="url" :alt="title">
+            </div>
         </div>
-        <div class="text-white py-2 px-1 px-md-4">
-            {{ movieFound?.overview }}
-        </div>
-        <div class="text-white">
-            {{ movieFound }}
+       
+        <div class="info">
+            <div class="py-2 px-1 px-md-4">
+                {{ movieFound?.overview }}
+            </div>
+            <div class="">
+                {{ movieFound }}
+            </div>
         </div>
     </div>
 </template>
@@ -68,12 +73,16 @@ export default {
 
 <style lang="scss" scoped>
 .mainDiv {
-    background-repeat: no-repeat;
+    min-height: 100dvh;
+   
+    
+}
+.backdrop{
     background-size: cover;
-
-    @media screen and (max-width: 768px) {
-        background-position: top;
-    }
+    background-position: top;
+}
+.info{
+   
 }
 
 .poster {
