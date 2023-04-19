@@ -1,4 +1,5 @@
 <template>
+  
  <div class="d-flex justify-content-between align-items-center p-2">
     <router-link to="/">
       <Navbar />
@@ -8,6 +9,7 @@
     </router-link>
   </div>
   <router-view/>
+
 </template>
 
 <script>
