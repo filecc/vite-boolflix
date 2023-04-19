@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export const useHomeList = defineStore('home-list', {
+export const useMovieList = defineStore('home-list', {
     state: () => ({ 
         list: null, 
         loading: false,

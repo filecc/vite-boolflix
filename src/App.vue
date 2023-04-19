@@ -13,7 +13,7 @@
 <script>
 import Navbar from './components/Navbar.vue';
 import axios from 'axios';
-import { useHomeList } from '../stores/list';
+import { useMovieList } from '../stores/list';
 
 export default {
   components: {
@@ -21,7 +21,7 @@ export default {
   },
   methods: {
     getInitialList(){ 
-      const store = useHomeList();
+      const store = useMovieList();
       axios.get('https://api.themoviedb.org/3/movie/popular?api_key=d18b4066572abd6df624614e95914560')
       .then(res => {
         store.populate(res.data.results)

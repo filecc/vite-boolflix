@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import { useHomeList } from '../../stores/list';
-const store = useHomeList();
+import { useMovieList } from '../../stores/list';
+const store = useMovieList();
 
 export default {
 

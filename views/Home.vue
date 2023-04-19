@@ -2,21 +2,23 @@
     <div class="p-2">
         <h2>Most Popular Movies</h2>
         <div @wheel="scroll" id="containerMoviesPopular">
-        <SingleMovieCard v-for="movie in store.list" :item="movie" :image="movie.poster_path" />
+            <router-link v-for="movie in movies.list" :to="'/movie/'+ movie.id + '-' + movie.original_title">
+            <SingleMovieCard :item="movie" :image="movie.poster_path" />
+                 </router-link>
         </div>
-        <router-link class="btn btn-primary" to="/movie/generic">Movie Generic</router-link>
+       
         <router-link class="btn btn-primary" to="/series/generic">TV Show Generic</router-link>
     </div>
 </template>
 
 <script>
     import SingleMovieCard from '../src/components/SingleMovieCard.vue';
-import { useHomeList } from '../stores/list';
-    const store = useHomeList();
+    import { useMovieList } from '../stores/list';
+    const movies = useMovieList();
     export default{
     data() {
         return {
-            store,
+            movies,
         };
     },
     methods :{
