@@ -22,6 +22,10 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 @import "bootstrap/scss/root";
 @import "bootstrap/scss/bootstrap";
 
+// overrade fonts locations
+$bootstrap-icons-font-src:url("/src/assets/icons-fonts/bootstrap-icons.woff2") format("woff2"),
+url("/src/assets/icons-fonts/bootstrap-icons.woff")  format("woff");
 // bootstrap icons
 @import "bootstrap-icons/font/bootstrap-icons.scss";
+
 
