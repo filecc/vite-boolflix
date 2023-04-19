@@ -1,13 +1,13 @@
 <template>
-  <div class="bg-primary">
-    hello
+ <div id="nav">
+    <router-link class="btn btn-primary" to="/">Home</router-link> |
+    <router-link class="btn btn-primary" to="/search">Search</router-link> 
   </div>
+  <router-view/>
 </template>
 
 <script>
-  export default {
-    
-  }
+ 
 </script>
 
 <style lang="scss" scoped>
