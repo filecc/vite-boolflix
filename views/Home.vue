@@ -1,8 +1,8 @@
 <template>
     <div class="p-2">
-        <h2>Most Popular Movies</h2>
+        <h2 class="pt-5">Most Popular Movies</h2>
         <div @wheel="scroll" id="containerMoviesPopular">
-            <router-link v-for="movie in movies.list" :to="'/movie/'+ movie.id + '-' + movie.original_title">
+            <router-link v-for="movie in movies.list" :to="'/movie/'+ movie.id + '-' + movie.title">
             <SingleMovieCard :item="movie" :image="movie.poster_path" />
                  </router-link>
         </div>

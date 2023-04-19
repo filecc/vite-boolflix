@@ -1,6 +1,6 @@
 <template>
   
- <div class="d-flex justify-content-between align-items-center p-2">
+ <div id="layoutNav" class="d-flex justify-content-between align-items-center p-2">
     <router-link to="/">
       <Navbar />
     </router-link>
@@ -24,7 +24,7 @@ export default {
   methods: {
     getInitialList(){ 
       const store = useMovieList();
-      axios.get('https://api.themoviedb.org/3/movie/popular?api_key=d18b4066572abd6df624614e95914560')
+      axios.get('https://api.themoviedb.org/3/movie/popular?api_key=d18b4066572abd6df624614e95914560&language=it-IT&page=1')
       .then(res => {
         store.populate(res.data.results)
       })
@@ -38,5 +38,9 @@ mounted(){
 </script>
 
 <style lang="scss" scoped>
-
+#layoutNav{
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+}
 </style>
