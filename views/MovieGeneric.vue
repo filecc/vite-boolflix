@@ -2,22 +2,24 @@
     <div v-if="store.loading">
         <Loader />
     </div>
-    <div v-else class="mainDiv">
+    <div v-else class="mainDiv" :style="bgColor">
         <div class="backdrop" :style="'background-image: url(' + backdrop + ');'">
             <h3 class="text-center text-white pt-5">{{ title }}</h3>
             <div class="py-2 px-1 px-md-4 rounded poster mx-auto m-md-0">
                 <img class="img-fluid rounded" :src="url" :alt="title">
             </div>
         </div>
-       
-        <div class="info">
+
+        <div class="info" >
             <div class="py-2 px-1 px-md-4">
+                <h4>Trama</h4>
                 {{ movieFound?.overview }}
             </div>
             <div class="">
                 {{ movieFound }}
             </div>
         </div>
+
     </div>
 </template>
 
@@ -25,8 +27,10 @@
 import axios from 'axios';
 import { useMovieList } from '../stores/list';
 import Loader from '../src/components/Loader.vue'
+import ColorThief from 'colorthief/dist/color-thief.mjs'
 
 const store = useMovieList();
+const colorThief = new ColorThief();
 
 export default {
     components: {
@@ -40,7 +44,8 @@ export default {
             movieFound: null,
             BASE_URL: store.URL_IMG,
             url: null,
-            backdrop: null
+            backdrop: null,
+            bgColor: null
         }
     },
     methods: {
@@ -50,6 +55,7 @@ export default {
         loadingFalse() {
             this.store.loadingFalse();
         },
+
     },
     mounted() {
         this.loading();
@@ -64,6 +70,26 @@ export default {
                 this.url = `${this.BASE_URL}${this.movieFound.poster_path}`;
                 this.backdrop = `${this.BASE_URL}${this.movieFound.backdrop_path}`;
                 this.loadingFalse();
+
+                const img = new Image();
+                let imageURL = this.backdrop;
+                let googleProxyURL = 'https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=2592000&url=';
+                img.crossOrigin = 'Anonymous';
+                img.src = googleProxyURL + encodeURIComponent(imageURL);
+                setTimeout(() => {
+                    try {
+                            const r = colorThief.getColor(img)[0];
+                        const g = colorThief.getColor(img)[1];
+                        const a = colorThief.getColor(img)[2];
+                        console.log(colorThief.getColor(img));
+                        this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${a}), black)`;
+                    } catch (error) {
+                        this.bgColor = `background: linear-gradient(black, black)`;
+                    }
+                    
+                }, 500)
+               
+
             })
 
     }
@@ -72,20 +98,22 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '../src/assets/style/variables' as *;
+
 .mainDiv {
     min-height: 100dvh;
-   
-    
 }
-.backdrop{
+
+.backdrop {
     background-size: cover;
     background-position: top;
 }
-.info{
-   
+
+.info {
+
+    color: white;
 }
 
 .poster {
     max-width: 20rem;
-}
-</style>
+}</style>
