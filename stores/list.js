@@ -1,7 +1,11 @@
 import { defineStore } from 'pinia';
 
 export const useHomeList = defineStore('home-list', {
-    state: () => ({ list: null, loading: false}),
+    state: () => ({ 
+        list: null, 
+        loading: false,
+        URL_IMG: 'https://image.tmdb.org/t/p/original',
+    }),
     actions: {
         populate(item) {
           this.list = item;

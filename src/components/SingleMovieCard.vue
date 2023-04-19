@@ -1,0 +1,39 @@
+<template>
+        <div class="card">
+            <img class="img-card-top rounded" :src="url" :alt="store.pathUrl">          
+        </div>
+</template>
+
+<script>
+import { useHomeList } from '../../stores/list';
+const store = useHomeList();
+
+export default {
+
+    props: {
+        item: Object,
+    },
+    data() {
+        return {
+            store,
+            BASE_URL: store.URL_IMG,
+            url: null
+        }
+    },
+    mounted() {
+        this.url = `${this.BASE_URL}${this.item.poster_path}`
+    }
+}
+</script>
+
+<style lang="scss" scoped>
+    .card{
+        width: 15rem;
+        min-width: 15rem;
+        max-width: 15rem;
+       
+        img{
+            object-fit: cover;
+        }
+    }
+</style>
