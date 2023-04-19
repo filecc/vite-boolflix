@@ -1,13 +1,13 @@
 <template>
     <div class="p-2 mainContainer">
         <h2 class="pt-5">Film Popolari</h2>
-        <div @wheel="scroll" id="containerMoviesPopular">
+        <div ref="scroll_container" @wheel.self="scroll" id="containerMoviesPopular">
             <router-link v-for="movie in movies.list" :to="'/movie/'+ movie.id + '-' + movie.title">
             <SingleMovieCard :item="movie" :image="movie.poster_path" />
                  </router-link>
         </div>
         <h2 class="pt-5">Serie Tv Popolari</h2>
-        <div @wheel="scroll" id="containerMoviesPopular">
+        <div @wheel.self="scroll" id="containerMoviesPopular">
             <router-link v-for="serie in series.list" :to="'/series/'+ serie.id + '-' + serie.name">
             <SingleMovieCard :item="serie" :image="serie.poster_path" />
                  </router-link>
@@ -30,8 +30,8 @@
         };
     },
     methods :{
-        scroll(){
-            console.log('scrolliiiing')
+        scroll(e){
+            this.$refs['scroll_container'].scrollLeft += e.deltaY;
         }
     },
     components: { SingleMovieCard }

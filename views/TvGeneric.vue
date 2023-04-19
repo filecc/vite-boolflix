@@ -3,20 +3,22 @@
         <Loader />
     </div>
     <div v-else class="mainDiv" :style="bgColor">
-        <div class="backdrop" :style="'background-image: url(' + backdrop + ');'">
-            <h3 class="text-center text-white pt-5">{{ title }}</h3>
+        <div class="backdrop pt-5" :style="'background-image: url(' + backdrop + ');'">
             <div class="py-2 px-1 px-md-4 rounded poster mx-auto m-md-0">
                 <img class="img-fluid rounded" :src="url" :alt="title">
             </div>
         </div>
-       
-        <div class="info">
-            <div class="py-2 px-1 px-md-4">
-                <h4>Trama</h4>
-                {{ movieFound?.overview }}
+
+        <div class="info py-2 px-3 px-md-4">
+            <h3 class="text-center text-md-start text-white fw-bold">{{ title }}</h3>
+            <div>
+                <small>
+                    {{ movieFound?.overview }}
+                </small>
+                
             </div>
             <div class="">
-                
+
             </div>
         </div>
     </div>
@@ -80,11 +82,11 @@ export default {
                         const g = colorThief.getColor(img)[1];
                         const a = colorThief.getColor(img)[2];
                         console.log(colorThief.getColor(img));
-                        this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${a}), black)`;
+                        this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${a}) 80%, rgb(${r+50}, ${g+50}, ${a+50}))`;
                     } catch (error) {
                         this.bgColor = `background: linear-gradient(black, black)`;
                     }
-                    
+
                 }, 500)
             })
 
@@ -95,20 +97,22 @@ export default {
 
 <style lang="scss" scoped>
 @use '../src/assets/style/variables' as *;
+
 .mainDiv {
     min-height: 100dvh;
 }
-.backdrop{
+
+.backdrop {
     background-size: cover;
     background-position: top;
 }
-.info{
+
+.info {
     min-height: fill-available;
- 
-  color: white;
+
+    color: white;
 }
 
 .poster {
     max-width: 20rem;
-}
-</style>
+}</style>

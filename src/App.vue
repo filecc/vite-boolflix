@@ -27,6 +27,7 @@ export default {
       axios.get('https://api.themoviedb.org/3/movie/popular?api_key=d18b4066572abd6df624614e95914560&language=it-IT&page=1')
       .then(res => {
         movies.populate(res.data.results)
+        console.log(res.data.results)
       })
 
       const series = useSeriesList();
