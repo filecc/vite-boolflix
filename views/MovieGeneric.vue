@@ -16,7 +16,7 @@
                 {{ movieFound?.overview }}
             </div>
             <div class="">
-                {{ movieFound }}
+                
             </div>
         </div>
 

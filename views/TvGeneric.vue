@@ -16,7 +16,7 @@
                 {{ movieFound?.overview }}
             </div>
             <div class="">
-                {{ movieFound }}
+                
             </div>
         </div>
     </div>
@@ -24,7 +24,7 @@
 
 <script>
 import axios from 'axios';
-import { useMovieList, useSeriesList } from '../stores/list';
+import { useSeriesList } from '../stores/list';
 import Loader from '../src/components/Loader.vue'
 import ColorThief from 'colorthief/dist/color-thief.mjs'
 
