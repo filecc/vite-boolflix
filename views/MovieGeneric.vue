@@ -16,6 +16,15 @@
                 <small>
                     {{ movieFound?.overview }}
                 </small>
+                <!-- {{ cast }} -->
+                <div @click="showCast" class="py-2 cast">
+                    <small>Cast:
+                     <span  v-for="actor in cast">
+                        <span>{{ actor?.name }} ({{ actor.character }}), </span>
+                    </span>
+                    </small>
+                </div>
+               
             </div>
             <div class="">
 
@@ -47,7 +56,8 @@ export default {
             BASE_URL: store.URL_IMG,
             url: null,
             backdrop: null,
-            bgColor: null
+            bgColor: null,
+            cast: null
         }
     },
     methods: {
@@ -57,6 +67,15 @@ export default {
         loadingFalse() {
             this.store.loadingFalse();
         },
+        getCastInfo(id){
+            const query = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`;
+            axios.get(query).then(res => 
+            {
+                this.cast = res.data.cast
+            }
+            );
+            
+        }
 
     },
     mounted() {
@@ -90,9 +109,9 @@ export default {
                     }
 
                 }, 500)
-
-
-            })
+            });
+            this.getCastInfo(split[0]);
+            
 
     }
 
@@ -118,5 +137,14 @@ export default {
 
 .poster {
     max-width: 20rem;
+}
+
+.cast{
+    white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  cursor: pointer;
+  color: #ccc;
+  
 }
 </style>

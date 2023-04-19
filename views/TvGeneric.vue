@@ -46,7 +46,8 @@ export default {
             BASE_URL: store.URL_IMG,
             url: null,
             backdrop: null,
-            bgColor: null
+            bgColor: null,
+            
         }
     },
     methods: {
