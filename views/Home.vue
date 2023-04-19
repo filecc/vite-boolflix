@@ -1,24 +1,32 @@
 <template>
     <div class="p-2">
-        <h2 class="pt-5">Most Popular Movies</h2>
+        <h2 class="pt-5">Film Popolari</h2>
         <div @wheel="scroll" id="containerMoviesPopular">
             <router-link v-for="movie in movies.list" :to="'/movie/'+ movie.id + '-' + movie.title">
             <SingleMovieCard :item="movie" :image="movie.poster_path" />
                  </router-link>
         </div>
-       
+        <h2 class="pt-5">Serie Tv Popolari</h2>
+        <div @wheel="scroll" id="containerMoviesPopular">
+            <router-link v-for="serie in series.list" :to="'/series/'+ serie.id + '-' + serie.name">
+            <SingleMovieCard :item="serie" :image="serie.poster_path" />
+                 </router-link>
+        </div>
         <router-link class="btn btn-primary" to="/series/generic">TV Show Generic</router-link>
     </div>
 </template>
 
 <script>
     import SingleMovieCard from '../src/components/SingleMovieCard.vue';
-    import { useMovieList } from '../stores/list';
+    import { useMovieList, useSeriesList } from '../stores/list';
     const movies = useMovieList();
+    const series = useSeriesList();
+
     export default{
     data() {
         return {
             movies,
+            series
         };
     },
     methods :{
