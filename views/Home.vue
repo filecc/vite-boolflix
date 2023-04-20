@@ -12,22 +12,31 @@
             <SingleMovieCard :item="serie" :image="serie.poster_path" />
                  </router-link>
         </div>
+        <h2 class="pt-5">Film Più Votati in Italia</h2>
+        <div ref="topRated_container" @wheel.stop="e => scroll(e, 'topRated_container', 'counter3')" class="containerPopular">
+            <router-link v-for="movie in topRated.list" :to="'/movie/'+ movie.id + '-' + movie.title">
+            <SingleMovieCard :item="movie" :image="movie.poster_path" />
+                 </router-link>
+        </div>
     </div>
 </template>
 
 <script>
     import SingleMovieCard from '../src/components/SingleMovieCard.vue';
-    import { useMovieList, useSeriesList } from '../stores/list';
+    import { useMovieList, useSeriesList, useMovieToprated } from '../stores/list';
     const movies = useMovieList();
     const series = useSeriesList();
+    const topRated = useMovieToprated();
 
     export default{
     data() {
         return {
             movies,
             series,
+            topRated,
             counter1: 0,
-            counter2: 0
+            counter2: 0,
+            counter3: 0
         };
     },
     methods :{

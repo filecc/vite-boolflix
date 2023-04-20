@@ -16,7 +16,7 @@
 <script>
 import Navbar from './components/Navbar.vue';
 import axios from 'axios';
-import { useMovieList, useSeriesList } from '../stores/list';
+import { useMovieList, useSeriesList, useMovieToprated } from '../stores/list';
 import AppFooter from './components/AppFooter.vue';
 
 export default {
@@ -30,14 +30,21 @@ export default {
       axios.get('https://api.themoviedb.org/3/movie/popular?api_key=d18b4066572abd6df624614e95914560&language=it-IT&page=1')
       .then(res => {
         movies.populate(res.data.results)
-        console.log(res.data.results)
+       
       })
 
       const series = useSeriesList();
       axios.get('https://api.themoviedb.org/3/tv/top_rated?api_key=d18b4066572abd6df624614e95914560&language=it-IT&page=1')
       .then(res => {
         series.populate(res.data.results)
-        console.log(res.data.results)
+   
+      })
+
+      const topRatedMovie = useMovieToprated();
+      axios.get('https://api.themoviedb.org/3/movie/top_rated?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT&page=1')
+      .then(res => {
+        topRatedMovie.populate(res.data.results)
+       
       })
   }
 },
