@@ -10,7 +10,7 @@
             </div>
         </div>
 
-        <div class="info py-2 px-3 px-md-4" >
+        <div class="info py-2 px-3 px-md-4" :style="textColor">
             <h3 class="text-center text-md-start text-white fw-bold">{{ title }}</h3>
             <div>
                 <small>
@@ -33,9 +33,6 @@
                 </div>
                
                
-            </div>
-            <div class="">
-
             </div>
         </div>
 
@@ -65,6 +62,7 @@ export default {
             url: null,
             backdrop: null,
             bgColor: null,
+            textColor: null,
             cast: null
         }
     },
@@ -78,6 +76,9 @@ export default {
         getCastInfo(id){
             const query = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`;
             axios.get(query).then(res => {this.cast = res.data.cast});
+        },
+        showCast(){
+            console.log('hello')
         }
 
     },
@@ -107,8 +108,12 @@ export default {
                         const a = colorThief.getColor(img)[2];
                        
                         this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${a}) 80%, rgb(${r+50}, ${g+50}, ${a+50}))`;
+                        this.textColor = `color: rgb(${r+100}, ${g+150}, ${a+200})`;
+                        console.log(this.bgColor)
+                        console.log('text ' + this.textColor)
                     } catch (error) {
                         this.bgColor = `background: linear-gradient(black, black)`;
+                        this.textColor = 'color: white'
                     }
 
                 }, 500)
@@ -143,10 +148,9 @@ export default {
 }
 
 .cast{
-    white-space: nowrap; 
+white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis; 
   cursor: pointer;
-  
 }
 </style>

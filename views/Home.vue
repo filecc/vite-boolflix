@@ -1,13 +1,13 @@
 <template>
     <div class="p-2 mainContainer">
         <h2 class="pt-5">Film Popolari</h2>
-        <div ref="movie_container" @wheel.stop="e => scroll(e, 'movie_container', 'counter1')" class="containerMoviesPopular">
+        <div ref="movie_container" @wheel.stop="e => scroll(e, 'movie_container', 'counter1')" class="containerPopular">
             <router-link v-for="movie in movies.list" :to="'/movie/'+ movie.id + '-' + movie.title">
             <SingleMovieCard :item="movie" :image="movie.poster_path" />
                  </router-link>
         </div>
         <h2 class="pt-5">Serie Tv Popolari</h2>
-        <div ref="series_container" @wheel.stop="e => scroll(e, 'series_container', 'counter2')" class="containerMoviesPopular">
+        <div ref="series_container" @wheel.stop="e => scroll(e, 'series_container', 'counter2')" class="containerPopular">
             <router-link v-for="serie in series.list" :to="'/series/'+ serie.id + '-' + serie.name">
             <SingleMovieCard :item="serie" :image="serie.poster_path" />
                  </router-link>
@@ -32,9 +32,11 @@
         };
     },
     methods :{
+       
         scroll(e, ref, counter){
             let delta =  e.deltaY;   
             let box = this.$refs[ref];    
+            
             const divScrollable = box.scrollWidth;
  
             if (this[counter]=== 0){
@@ -55,7 +57,7 @@
 </script>
 
 <style lang="scss" scoped>
-.containerMoviesPopular{
+.containerPopular{
     padding: 1rem 0;
     display: flex;
     align-items: center;
@@ -63,9 +65,7 @@
     overflow-x: auto;
     overflow-y: hidden;
     scroll-behavior: smooth;
+    overscroll-behavior: contain;
 }
-.mainContainer{
-    min-height: 100dvh;
-   
-}
+
 </style>

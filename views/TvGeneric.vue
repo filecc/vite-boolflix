@@ -4,6 +4,7 @@
     </div>
     <div v-else class="mainDiv" :style="bgColor">
         <div class="backdrop pt-5" :style="'background-image: url(' + backdrop + ');'">
+            
             <div class="py-2 px-1 px-md-4 rounded poster mx-auto m-md-0">
                 <img class="img-fluid rounded" :src="url" :alt="title">
             </div>
@@ -31,11 +32,10 @@
                     </small>
                 </div>
                
-            </div>
-            <div class="">
-
+               
             </div>
         </div>
+
     </div>
 </template>
 
@@ -63,7 +63,6 @@ export default {
             backdrop: null,
             bgColor: null,
             cast: null
-            
         }
     },
     methods: {
@@ -74,9 +73,13 @@ export default {
             this.store.loadingFalse();
         },
         getCastInfo(id){
-            const query = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`;
+            const query = `https://api.themoviedb.org/3/tv/${id}/credits?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`;
             axios.get(query).then(res => {this.cast = res.data.cast});
+        },
+        showCast(){
+            console.log('hello')
         }
+
     },
     mounted() {
         this.loading();
@@ -84,7 +87,7 @@ export default {
         this.title = split[1];
         this.id = split[0];
         const query = 'https://api.themoviedb.org/3/tv/' + this.id + '?api_key=d18b4066572abd6df624614e95914560&language=it-IT';
-        console.log(query)
+        
         axios.get(query)
             .then(res => {
                 this.movieFound = res.data;
@@ -102,7 +105,7 @@ export default {
                         const r = colorThief.getColor(img)[0];
                         const g = colorThief.getColor(img)[1];
                         const a = colorThief.getColor(img)[2];
-                        console.log(colorThief.getColor(img));
+                       
                         this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${a}) 80%, rgb(${r+50}, ${g+50}, ${a+50}))`;
                     } catch (error) {
                         this.bgColor = `background: linear-gradient(black, black)`;
@@ -111,6 +114,7 @@ export default {
                 }, 500)
             });
             this.getCastInfo(split[0]);
+            
 
     }
 
@@ -130,7 +134,6 @@ export default {
 }
 
 .info {
-    min-height: fill-available;
 
     color: white;
 }
@@ -140,12 +143,9 @@ export default {
 }
 
 .cast{
-    white-space: nowrap; 
+white-space: nowrap; 
   overflow: hidden;
   text-overflow: ellipsis; 
   cursor: pointer;
-  
-  
 }
-
 </style>
