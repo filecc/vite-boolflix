@@ -58,7 +58,7 @@
     <div v-if="similar">
 
         <h6 class="pt-5 text-white px-4">Simili a {{ title }}</h6>
-            <div ref="similar" @wheel.stop="e => scroll(e, 'similar', 'counter')" class="containerPopular">
+            <div ref="similar" @wheel.self="e => scroll(e, 'similar', 'counter')" class="containerPopular">
                 <router-link v-for="movie in similar" :to="'/movie/' + movie.id + '-' + movie.title">
                 <SingleMovieCard :item="movie" :image="movie.poster_path" />
                      </router-link>
