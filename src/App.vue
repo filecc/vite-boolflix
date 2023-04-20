@@ -8,8 +8,11 @@
       <i class="bi bi-search"></i>
     </router-link>
   </div>
+  
   <router-view/>
-
+  <div>
+    Footer
+  </div>
 </template>
 
 <script>

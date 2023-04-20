@@ -11,49 +11,47 @@
         <div class="info py-2 px-3 px-md-4 d-md-flex" :style="textColor">
             
             <div class="text-center text-white text-md-start col-12 col-md-5">
-                <h3 class="text-center text-md-start text-white fw-bold">{{ title }}</h3>
+                <h3 class="text-center text-md-start text-white fw-bold pt-4">{{ title }}</h3>
                 <span>{{ movieFound?.original_title }}</span>
                 <div class="stats">
                     <span class="badge rounded-pill text-bg-primary my-1">Voto Medio: {{ movieFound?.vote_average.toFixed(1) }}</span>
                    
                 </div>
                 <div class="pb-4 stats">
-                    
                     <span>{{ movieFound?.release_date.split('-')[0] }}</span> -
                     <span>{{ movieFound?.original_language.toUpperCase() }}</span>
                 </div>
             </div>
-            <div class="col-12 col-md-7">
-                <small>
+            <div class="col-12 col-md-7 pt-4">
+                <small >
                     {{ movieFound?.overview }}
                 </small>
-                <!-- {{ cast }} -->
-                <div @click="() => showCast = true" class="py-2 cast">
-                    <small>Cast:
-                        <span v-for="actor in cast">
-                            <span v-if="actor.character">
-                                <span>
-                                    {{ actor?.name }}
-                                    (
-                                    <span class="fw-bold"> {{ actor?.character }}</span>
-                                    ),
-                                </span>
-                            </span>
-                        </span>
-                    </small>
-                </div>
+                
                 
             </div>
             
         </div>
-        <!-- TRAILER -->
-        <div class="col-12 col-md-8 mx-auto" v-if="videoKey">
-                    <h6 class="text-center fw-bold text-white py-3">Trailer</h6>
-                    <iframe width="100%" height="500px" :src="'https://www.youtube.com/embed/'+ videoKey" frameborder="0"
-                        allowfullscreen>
-                    </iframe>
+        <div class="d-md-flex px-4">
+                <div class="col-12 col-md-5">
+                    <h6 class="text-center text-md-start fw-bold text-white py-3">
+                        Cast 
+                        <span class="ms-2 badge rounded-pill text-bg-primary" @click="() => showCast = true">
+                            Mostra tutto
+                        </span>
+                    </h6>
+                    <div>
+                     <CastPreview :actors="cast"/>
+                    </div>
                 </div>
-
+        
+            <!-- TRAILER -->
+            <div class="col-12 col-md-7 d-flex flex-column justify-content-between" v-if="videoKey">
+                        <h6 class="text-center text-md-start fw-bold text-white py-3">Trailer</h6>
+                        <iframe width="100%" height="300px" :src="'https://www.youtube.com/embed/' + videoKey" frameborder="0"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
     </div>
     <div v-if="showCast" class="castShow shadow" :style="bgColor">
         <div :style="textColor">
@@ -74,6 +72,7 @@ import { useMovieList } from '../stores/list';
 import Loader from '../src/components/Loader.vue'
 import ColorThief from 'colorthief/dist/color-thief.mjs'
 import ActorsProfile from '../src/components/ActorsProfile.vue';
+import CastPreview from '../src/components/CastPreview.vue';
 
 const store = useMovieList();
 const colorThief = new ColorThief();
@@ -81,7 +80,8 @@ const colorThief = new ColorThief();
 export default {
     components: {
         Loader,
-        ActorsProfile
+        ActorsProfile,
+        CastPreview
     },
     data() {
         return {
@@ -174,6 +174,7 @@ export default {
 
 .mainDiv {
     min-height: 100dvh;
+    padding-bottom: 3rem;
 }
 
 .backdrop {
@@ -192,10 +193,10 @@ export default {
 }
 
 .cast {
-    white-space: nowrap;
+        white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    cursor: pointer;
+
 }
 
 .castShow {
@@ -222,6 +223,7 @@ export default {
     }
 
 }
+
 
 .stats{
     font-size: 12px;
