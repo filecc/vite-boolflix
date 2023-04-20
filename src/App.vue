@@ -10,20 +10,20 @@
   </div>
   
   <router-view/>
-  <div>
-    Footer
-  </div>
+  <AppFooter />
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue';
 import axios from 'axios';
 import { useMovieList, useSeriesList } from '../stores/list';
+import AppFooter from './components/AppFooter.vue';
 
 export default {
   components: {
     Navbar,
-  },
+    AppFooter
+},
   methods: {
     getInitialList(){ 
       const movies = useMovieList();
