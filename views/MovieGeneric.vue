@@ -59,9 +59,9 @@
 
         <h6 class="pt-5 text-white px-4">Simili a {{ title }}</h6>
             <div ref="similar" @wheel.stop="e => scroll(e, 'similar', 'counter')" class="containerPopular">
-                <a v-for="movie in similar" :href="'/movie/' + movie.id + '-' + movie.title">
+                <router-link v-for="movie in similar" :to="'/movie/' + movie.id + '-' + movie.title">
                 <SingleMovieCard :item="movie" :image="movie.poster_path" />
-                     </a>
+                     </router-link>
             </div>
 
     </div>
@@ -150,6 +150,15 @@ export default {
             }
         }
 
+    },
+        created() {
+        this.$watch(
+        () => this.$route.params,
+        (toParams, previousParams) => {
+           
+           window.location.href = toParams.name;
+        }
+        )
     },
     mounted() {
         this.loading();
