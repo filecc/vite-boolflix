@@ -12,7 +12,6 @@
             <SingleMovieCard :item="serie" :image="serie.poster_path" />
                  </router-link>
         </div>
-        <router-link class="btn btn-primary" to="/series/generic">TV Show Generic</router-link>
     </div>
 </template>
 

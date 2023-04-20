@@ -15,7 +15,7 @@
                 <h3 class="text-center text-md-start text-white fw-bold pt-4">{{ title }}</h3>
                 <span>{{ movieFound?.original_title }}</span>
                 <div class="stats">
-                    <span class="badge rounded-pill text-bg-primary my-1">Voto Medio: {{ movieFound?.vote_average.toFixed(1)
+                    <span class="badge rounded-pill text-bg-info my-1">Voto Medio: {{ movieFound?.vote_average.toFixed(1)
                     }}</span>
 
                 </div>
@@ -56,6 +56,7 @@
             </div>
         </div>
     </div>
+    <Transition>
     <div v-if="showCast" class="castShow shadow" :style="bgColor">
         <div :style="textColor">
             <div class="text-end">
@@ -67,6 +68,7 @@
 
         </div>
     </div>
+</Transition>
 </template>
 
 <script>
@@ -205,7 +207,7 @@ export default {
 .castShow {
     padding: 2rem;
     margin: 1rem;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;

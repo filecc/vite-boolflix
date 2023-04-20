@@ -6,6 +6,7 @@
 
 // variables override
 $primary: $fg-primary;
+$info: $fg-info;
 
 @import "bootstrap/scss/variables";
 
@@ -36,4 +37,14 @@ body{
     max-width: 1200px;
     margin: 0 auto;
     font-family: $raleway;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
 }

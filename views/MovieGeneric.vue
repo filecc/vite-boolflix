@@ -15,7 +15,7 @@
                 <h3 class="text-center text-md-start text-white fw-bold pt-4">{{ title }}</h3>
                 <span>{{ movieFound?.original_title }}</span>
                 <div class="stats">
-                    <span class="badge rounded-pill text-bg-primary my-1">Voto Medio: {{ movieFound?.vote_average.toFixed(1)
+                    <span class="badge rounded-pill text-bg-info my-1">Voto Medio: {{ movieFound?.vote_average.toFixed(1)
                     }}</span>
 
                 </div>
@@ -56,17 +56,22 @@
             </div>
         </div>
     </div>
+    <!-- CAST MODAL -->
+    <Transition>
     <div v-if="showCast" class="castShow shadow" :style="bgColor">
         <div :style="textColor">
             <div class="text-end">
                 <button @click="() => showCast = false" :style="textColor" class="btn"><i class="bi bi-x-lg"></i></button>
             </div>
+            <h6 class="text-center">{{ title }} - Cast</h6>
             <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 gx-0">
+               
                 <ActorsProfile :actors="cast" />
             </div>
 
         </div>
     </div>
+</Transition>
 </template>
 
 <script>
@@ -205,7 +210,7 @@ export default {
 .castShow {
     padding: 2rem;
     margin: 1rem;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -214,8 +219,6 @@ export default {
     border-radius: 5px;
     z-index: 1000;
     overflow-y: auto;
-    overscroll-behavior: hidden;
-
 
     &::-webkit-scrollbar {
         display: none;
