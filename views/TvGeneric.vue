@@ -24,7 +24,7 @@
                 </div>
                 <div class="pb-4 stats">
                     <span>{{ movieFound?.first_air_date?.split('-')[0] }}</span> -
-                    <span>{{ movieFound?.original_language?.toUpperCase() }}</span>
+                    <img style="width:20px" :src="'/images/flags/language-'+movieFound?.original_language+'.svg'" :alt="movieFound?.original_language">
                 </div>
             </div>
             <div class="col-12 col-md-7 pt-4">
