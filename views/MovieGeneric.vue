@@ -40,11 +40,11 @@
             <div class="col-12 col-md-5 text-center">
                 <h6 class="text-center text-md-start fw-bold text-white pt-3">
                     Cast
-
-                </h6>
-                <span class="badge rounded-pill text-bg-primary d-inline-block showall" @click="() => showCast = true">
+                    <span class="ms-2 badge rounded-pill text-bg-primary d-inline-block showall" @click="() => showCast = true">
                     Mostra tutto
                 </span>
+                </h6>
+                
                 <div>
                     <CastPreview :actors="cast" />
                 </div>
