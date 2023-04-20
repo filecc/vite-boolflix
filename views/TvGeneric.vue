@@ -15,8 +15,11 @@
                 <h3 class="text-center text-md-start text-white fw-bold pt-4">{{ title }}</h3>
                 <span>{{ movieFound?.original_title }}</span>
                 <div class="stats">
-                    <span class="badge rounded-pill text-bg-info my-1">Voto Medio: {{ movieFound?.vote_average.toFixed(1)
-                    }}</span>
+                    <span class="badge rounded-pill text-bg-info my-1">
+                        <span v-for="star in vote">
+                           <i :class="'bi bi-star'+star"></i>
+                        </span>
+                    </span>
 
                 </div>
                 <div class="pb-4 stats">
@@ -101,7 +104,8 @@ export default {
             textColor: null,
             cast: null,
             showCast: false,
-            videoKey: null
+            videoKey: null,
+            vote: [],
         }
     },
     methods: {
@@ -115,6 +119,19 @@ export default {
             const query = `https://api.themoviedb.org/3/tv/${id}/credits?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`;
             axios.get(query).then(res => { this.cast = res.data.cast });
         },
+        getVote(){
+            const average = Math.round(parseInt(this.movieFound.vote_average) / 2);
+            while(this.vote.length < 5){
+                for(let i=0;i<average;i++){
+                    this.vote.push('-fill');
+                }
+                for(let i=this.vote.length;i<5;i++){
+                    this.vote.push(' ');
+                }
+               
+            }
+            console.log(this.vote)
+        }
 
     },
     mounted() {
@@ -130,6 +147,7 @@ export default {
                 this.url = `${this.BASE_URL}${this.movieFound.poster_path}`;
                 this.backdrop = `${this.BASE_URL}${this.movieFound.backdrop_path}`;
                 this.loadingFalse();
+                this.getVote();
 
                 const img = new Image();
                 let imageURL = this.backdrop;
@@ -144,8 +162,6 @@ export default {
 
                         this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${a}) 80%, rgb(${r + 50}, ${g + 50}, ${a + 50}))`;
                         this.textColor = `color: rgb(${r + 100}, ${g + 150}, ${a + 200})`;
-                        console.log(this.bgColor)
-                        console.log('text ' + this.textColor)
                     } catch (error) {
                         this.bgColor = `background: linear-gradient(black, black)`;
                         this.textColor = 'color: white'
@@ -155,7 +171,6 @@ export default {
             });
         const videoQuery = `https://api.themoviedb.org/3/tv/${split[0]}/videos?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`
         axios.get(videoQuery).then(res => {
-            console.log(res.data)
             this.videoKey = res.data?.results[0]?.key
             if (res.data.results.length === 0) {
                 axios.get(`https://api.themoviedb.org/3/tv/${split[0]}/videos?api_key=c60495b897d3871eb954459412ca5d5d&language=en-US`).

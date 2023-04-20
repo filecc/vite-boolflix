@@ -15,8 +15,11 @@
                 <h3 class="text-center text-md-start text-white fw-bold pt-4">{{ title }}</h3>
                 <span>{{ movieFound?.original_title }}</span>
                 <div class="stats">
-                    <span class="badge rounded-pill text-bg-info my-1">Voto Medio: {{ movieFound?.vote_average.toFixed(1)
-                    }}</span>
+                    <span class="badge rounded-pill text-bg-info my-1">
+                        <span v-for="star in vote">
+                            <i :class="'bi bi-star'+star"></i>
+                        </span>
+                </span>
 
                 </div>
                 <div class="pb-4 stats">
@@ -118,6 +121,7 @@ export default {
             videoKey: null,
             counter: 0,
             similar: null,
+            vote: [],
         }
     },
     methods: {
@@ -148,6 +152,19 @@ export default {
                 delta < 0 ? (this[counter] -= 100) : (this[counter] += 100);
                 box.scrollTo(this[counter], 0);
             }
+        },
+        getVote(){
+            const average = Math.round(parseInt(this.movieFound.vote_average) / 2);
+            while(this.vote.length < 5){
+                for(let i=0;i<average;i++){
+                    this.vote.push('-fill');
+                }
+                for(let i=this.vote.length;i<5;i++){
+                    this.vote.push(' ');
+                }
+               
+            }
+            console.log(this.vote)
         }
 
     },
@@ -174,6 +191,7 @@ export default {
                 ? this.url = '/images/img-placeholder.svg'
                 : this.url = `${this.BASE_URL}${this.movieFound.poster_path}`;
                 this.backdrop = `${this.BASE_URL}${this.movieFound.backdrop_path}`;
+                this.getVote();
                 this.loadingFalse();
 
                 const img = new Image();
@@ -219,6 +237,7 @@ export default {
             
             console.log(this.similar)
         })
+        
         this.getCastInfo(split[0]);
 
 
