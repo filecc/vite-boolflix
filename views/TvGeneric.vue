@@ -10,14 +10,14 @@
             </div>
         </div>
 
-        <div class="info py-2 px-3 px-md-4" >
+        <div class="info py-2 px-3 px-md-4" :style="textColor">
             <h3 class="text-center text-md-start text-white fw-bold">{{ title }}</h3>
             <div>
                 <small>
                     {{ movieFound?.overview }}
                 </small>
                 <!-- {{ cast }} -->
-                <div @click="showCast" class="py-2 cast">
+                <div @click="() => showCast = true" class="py-2 cast">
                     <small>Cast:
                      <span  v-for="actor in cast">
                         <span v-if="actor.character">
@@ -31,12 +31,18 @@
                     </span>
                     </small>
                 </div>
-               
-               
             </div>
         </div>
 
     </div>
+    <div v-if="showCast" class="castShow" :style="bgColor">
+            <div :style="textColor">
+                <div class="text-end">
+            <button @click="() => showCast = false" :style="textColor" class="btn"><i class="bi bi-x-lg"></i></button>
+          </div>
+            <ActorsProfile :actors="cast"  />
+            </div>
+        </div>
 </template>
 
 <script>
@@ -44,14 +50,16 @@ import axios from 'axios';
 import { useSeriesList } from '../stores/list';
 import Loader from '../src/components/Loader.vue'
 import ColorThief from 'colorthief/dist/color-thief.mjs'
+import ActorsProfile from '../src/components/ActorsProfile.vue';
 
 const store = useSeriesList();
 const colorThief = new ColorThief();
 
 export default {
     components: {
-        Loader,
-    },
+    Loader,
+    ActorsProfile
+},
     data() {
         return {
             store,
@@ -62,7 +70,9 @@ export default {
             url: null,
             backdrop: null,
             bgColor: null,
-            cast: null
+            textColor: null,
+            cast: null,
+            showCast: false
         }
     },
     methods: {
@@ -76,9 +86,6 @@ export default {
             const query = `https://api.themoviedb.org/3/tv/${id}/credits?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`;
             axios.get(query).then(res => {this.cast = res.data.cast});
         },
-        showCast(){
-            console.log('hello')
-        }
 
     },
     mounted() {
@@ -107,8 +114,12 @@ export default {
                         const a = colorThief.getColor(img)[2];
                        
                         this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${a}) 80%, rgb(${r+50}, ${g+50}, ${a+50}))`;
+                        this.textColor = `color: rgb(${r+100}, ${g+150}, ${a+200})`;
+                        console.log(this.bgColor)
+                        console.log('text ' + this.textColor)
                     } catch (error) {
                         this.bgColor = `background: linear-gradient(black, black)`;
+                        this.textColor = 'color: white'
                     }
 
                 }, 500)
@@ -147,5 +158,16 @@ white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; 
   cursor: pointer;
+}
+
+.castShow{
+    padding: 2rem;
+    margin: 1rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-radius: 10px;
+    z-index: 1000;
 }
 </style>
