@@ -1,5 +1,5 @@
 <template>
-    <footer class="p-4">
+    <footer class="px-4">
         <div class="d-flex justify-content-between align-items-center">
             <div>
                 <img src="/images/logo.svg" alt="logo">
@@ -21,6 +21,8 @@
 @use '../assets/style/variables' as *;
 
 footer{
+    display: grid;
+    height: 80px;
     background: linear-gradient(to right, black, $fg-primary);
 }
 img{
