@@ -20,10 +20,18 @@
                 <div @click="showCast" class="py-2 cast">
                     <small>Cast:
                      <span  v-for="actor in cast">
-                        <span>{{ actor?.name }} ({{ actor.character }}), </span>
+                        <span v-if="actor.character">
+                            <span> 
+                                {{ actor?.name }} 
+                                (
+                                    <span class="fw-bold"> {{ actor.character }}</span>
+                                ), 
+                            </span>
+                        </span>
                     </span>
                     </small>
                 </div>
+               
                
             </div>
             <div class="">
@@ -69,12 +77,7 @@ export default {
         },
         getCastInfo(id){
             const query = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`;
-            axios.get(query).then(res => 
-            {
-                this.cast = res.data.cast
-            }
-            );
-            
+            axios.get(query).then(res => {this.cast = res.data.cast});
         }
 
     },
@@ -144,7 +147,6 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis; 
   cursor: pointer;
-  color: #ccc;
   
 }
 </style>

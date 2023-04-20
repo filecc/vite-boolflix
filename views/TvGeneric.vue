@@ -9,13 +9,28 @@
             </div>
         </div>
 
-        <div class="info py-2 px-3 px-md-4">
+        <div class="info py-2 px-3 px-md-4" >
             <h3 class="text-center text-md-start text-white fw-bold">{{ title }}</h3>
             <div>
                 <small>
                     {{ movieFound?.overview }}
                 </small>
-                
+                <!-- {{ cast }} -->
+                <div @click="showCast" class="py-2 cast">
+                    <small>Cast:
+                     <span  v-for="actor in cast">
+                        <span v-if="actor.character">
+                            <span> 
+                                {{ actor?.name }} 
+                                (
+                                    <span class="fw-bold"> {{ actor.character }}</span>
+                                ), 
+                            </span>
+                        </span>
+                    </span>
+                    </small>
+                </div>
+               
             </div>
             <div class="">
 
@@ -47,6 +62,7 @@ export default {
             url: null,
             backdrop: null,
             bgColor: null,
+            cast: null
             
         }
     },
@@ -57,6 +73,10 @@ export default {
         loadingFalse() {
             this.store.loadingFalse();
         },
+        getCastInfo(id){
+            const query = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`;
+            axios.get(query).then(res => {this.cast = res.data.cast});
+        }
     },
     mounted() {
         this.loading();
@@ -89,7 +109,8 @@ export default {
                     }
 
                 }, 500)
-            })
+            });
+            this.getCastInfo(split[0]);
 
     }
 
@@ -116,4 +137,15 @@ export default {
 
 .poster {
     max-width: 20rem;
-}</style>
+}
+
+.cast{
+    white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  cursor: pointer;
+  
+  
+}
+
+</style>
