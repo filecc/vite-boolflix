@@ -39,6 +39,7 @@ const store = useMovieList();
 <style lang="scss" scoped>
     img{
         min-height: 242px;
+        height: 242px;
         object-fit: cover
     }
 </style>

@@ -3,20 +3,15 @@
         <Loader />
     </div>
     <div v-else class="mainDiv" :style="bgColor">
-
         <div class="backdrop pt-5" :style="'background-image: url(' + backdrop + ');'">
-
-
             <div class="py-2 px-1 px-md-4 rounded poster mx-auto m-md-0">
                 <img class="img-fluid rounded" :src="url" :alt="title">
             </div>
-
-
         </div>
-
-        <div class="info py-2 px-3 px-md-4" :style="textColor">
-            <h3 class="text-center text-md-start text-white fw-bold">{{ title }}</h3>
-            <div class="text-center text-white">
+        <div class="info py-2 px-3 px-md-4 d-md-flex" :style="textColor">
+            
+            <div class="text-center text-white text-md-start col-12 col-md-5">
+                <h3 class="text-center text-md-start text-white fw-bold">{{ title }}</h3>
                 <span>{{ movieFound?.original_title }}</span>
                 <div class="stats">
                     <span class="badge rounded-pill text-bg-primary my-1">Voto Medio: {{ movieFound?.vote_average.toFixed(1) }}</span>
@@ -28,7 +23,7 @@
                     <span>{{ movieFound?.original_language.toUpperCase() }}</span>
                 </div>
             </div>
-            <div>
+            <div class="col-12 col-md-7">
                 <small>
                     {{ movieFound?.overview }}
                 </small>
@@ -47,18 +42,20 @@
                         </span>
                     </small>
                 </div>
-                <!-- TRAILER -->
-                <div>
+                
+            </div>
+            
+        </div>
+        <!-- TRAILER -->
+        <div class="col-12 col-md-8 mx-auto" v-if="videoKey">
                     <h6 class="text-center fw-bold text-white py-3">Trailer</h6>
-                    <iframe width="100%" height="500px" src="https://www.youtube.com/embed/MLp7-KB-xdk" frameborder="0"
+                    <iframe width="100%" height="500px" :src="'https://www.youtube.com/embed/'+ videoKey" frameborder="0"
                         allowfullscreen>
                     </iframe>
                 </div>
-            </div>
-        </div>
 
     </div>
-    <div v-if="showCast" class="castShow" :style="bgColor">
+    <div v-if="showCast" class="castShow shadow" :style="bgColor">
         <div :style="textColor">
             <div class="text-end">
                 <button @click="() => showCast = false" :style="textColor" class="btn"><i class="bi bi-x-lg"></i></button>
@@ -98,7 +95,8 @@ export default {
             bgColor: null,
             textColor: null,
             cast: null,
-            showCast: false
+            showCast: false,
+            videoKey: null
         }
     },
     methods: {
@@ -150,6 +148,19 @@ export default {
 
                 }, 500)
             });
+        const videoQuery = `https://api.themoviedb.org/3/movie/${split[0]}/videos?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`
+        axios.get(videoQuery).then(res => {
+            console.log(res.data)
+            this.videoKey = res.data?.results[0]?.key
+            if (res.data.results.length === 0){
+                axios.get(`https://api.themoviedb.org/3/movie/${split[0]}/videos?api_key=c60495b897d3871eb954459412ca5d5d&language=en-US`).
+                then(res => {
+                    this.videoKey = res.data?.results[0]?.key
+                })
+                
+            }
+           
+        })
         this.getCastInfo(split[0]);
 
 
@@ -194,11 +205,13 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-    height: 100dvh;
-    border-radius: 10px;
+    bottom: 0;
+    height: auto;
+    border-radius: 5px;
     z-index: 1000;
     overflow-y: auto;
-    scrollbar-width: 0;
+    overscroll-behavior: hidden;
+    
 
     &::-webkit-scrollbar {
         display: none;
@@ -213,4 +226,6 @@ export default {
 .stats{
     font-size: 12px;
 }
+
+
 </style>
