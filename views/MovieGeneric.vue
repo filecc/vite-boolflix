@@ -154,8 +154,8 @@ export default {
         created() {
         this.$watch(
         () => this.$route.params,
-        (toParams, previousParams) => {
-           
+        (toParams) => {
+            
            window.location.href = toParams.name;
         }
         )
