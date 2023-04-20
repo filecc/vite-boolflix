@@ -21,7 +21,9 @@ export default {
         }
     },
     mounted() {
-        this.url = `${this.BASE_URL}${this.item.poster_path}`
+        !this.item.poster_path 
+                ? this.url = '/images/img-placeholder.svg'
+                : this.url = `${this.BASE_URL}${this.item.poster_path}`;
     }
 }
 </script>

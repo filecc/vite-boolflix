@@ -1,8 +1,8 @@
 <template>
-    <div>
-        THE SEARCH
+    <div class="pt-5">
+        
+        <input type="text">
 
-        <button @click="" class="mt-5">MODAL</button>
     </div>
 
 

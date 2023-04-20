@@ -55,6 +55,16 @@
                 </iframe>
             </div>
         </div>
+    <div v-if="similar">
+
+        <h6 class="pt-5 text-white px-4">Simili a {{ title }}</h6>
+            <div ref="similar" @wheel.stop="e => scroll(e, 'similar', 'counter')" class="containerPopular">
+                <a v-for="movie in similar" :href="'/movie/' + movie.id + '-' + movie.title">
+                <SingleMovieCard :item="movie" :image="movie.poster_path" />
+                     </a>
+            </div>
+
+    </div>
     </div>
     <!-- CAST MODAL -->
     <Transition>
@@ -65,7 +75,6 @@
             </div>
             <h6 class="text-center">{{ title }} - Cast</h6>
             <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 gx-0">
-               
                 <ActorsProfile :actors="cast" />
             </div>
 
@@ -81,16 +90,18 @@ import Loader from '../src/components/Loader.vue'
 import ColorThief from 'colorthief/dist/color-thief.mjs'
 import ActorsProfile from '../src/components/ActorsProfile.vue';
 import CastPreview from '../src/components/CastPreview.vue';
+import SingleMovieCard from '../src/components/SingleMovieCard.vue';
 
 const store = useMovieList();
 const colorThief = new ColorThief();
 
 export default {
     components: {
-        Loader,
-        ActorsProfile,
-        CastPreview
-    },
+    Loader,
+    ActorsProfile,
+    CastPreview,
+    SingleMovieCard
+},
     data() {
         return {
             store,
@@ -104,7 +115,9 @@ export default {
             textColor: null,
             cast: null,
             showCast: false,
-            videoKey: null
+            videoKey: null,
+            counter: 0,
+            similar: null,
         }
     },
     methods: {
@@ -118,6 +131,24 @@ export default {
             const query = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`;
             axios.get(query).then(res => { this.cast = res.data.cast });
         },
+        scroll(e, ref, counter){
+            let delta =  e.deltaY;   
+            let box = this.$refs[ref];    
+            
+            const divScrollable = box.scrollWidth;
+ 
+            if (this[counter]=== 0){
+                this[counter] = 0;
+                delta < 0 ? (this[counter] -= 0) : (this[counter] += 100);
+                box.scrollTo(this[counter], 0);
+            } else if (this[counter] >= divScrollable) {
+                delta < 0 ? (this[counter] -= 100) : (this[counter] += 0);
+                box.scrollTo(this[counter], 0);
+            } else {
+                delta < 0 ? (this[counter] -= 100) : (this[counter] += 100);
+                box.scrollTo(this[counter], 0);
+            }
+        }
 
     },
     mounted() {
@@ -130,7 +161,9 @@ export default {
         axios.get(query)
             .then(res => {
                 this.movieFound = res.data;
-                this.url = `${this.BASE_URL}${this.movieFound.poster_path}`;
+                !this.movieFound.poster_path 
+                ? this.url = '/images/img-placeholder.svg'
+                : this.url = `${this.BASE_URL}${this.movieFound.poster_path}`;
                 this.backdrop = `${this.BASE_URL}${this.movieFound.backdrop_path}`;
                 this.loadingFalse();
 
@@ -168,6 +201,14 @@ export default {
 
             }
 
+        })
+        axios.get(`https://api.themoviedb.org/3/movie/${split[0]}/recommendations?api_key=c60495b897d3871eb954459412ca5d5d&language=en-US&page=1`)
+        .then(res => {
+            if (res.data.results.length > 0){
+                this.similar = res.data.results;
+            }
+            
+            console.log(this.similar)
         })
         this.getCastInfo(split[0]);
 
@@ -236,5 +277,16 @@ export default {
 
 .stats {
     font-size: 12px;
+}
+
+.containerPopular{
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
 }
 </style>
