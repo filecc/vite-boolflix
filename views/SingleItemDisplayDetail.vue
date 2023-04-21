@@ -36,13 +36,18 @@
                         <small  class="d-inline-block mb-2">Streaming</small>
                         <div v-if="providers?.flatrate" class="d-flex flex-wrap  justify-content-center justify-content-md-start align-items-center gap-2 mb-3">
                             <div v-for="service in providers?.flatrate" >
-                                <img class="providersImg" :src="imgURL + service.logo_path" :alt="service.provider_name">
+                                <a target="_blank" :href="'https://www.google.com/search?q='+title+':site='+service.provider_name">
+                                    <img class="providersImg" :src="imgURL + service.logo_path" :alt="service.provider_name">
+                                </a>
+                               
                             </div>
                         </div>
                         <small  class="d-inline-block mb-2"  v-if="providers?.buy">Acquista</small>
                         <div v-if="providers?.buy" class="d-flex flex-wrap justify-content-center justify-content-md-start align-items-center gap-2 mb-3">
                             <div v-for="service in providers?.buy" >
-                                <img class="providersImg" :src="imgURL + service.logo_path" :alt="service.provider_name">
+                                <a target="_blank" :href="'https://www.google.com/search?q='+title+':site='+service.provider_name">
+                                    <img class="providersImg" :src="imgURL + service.logo_path" :alt="service.provider_name">
+                                </a>
                             </div>
                         </div>
 
