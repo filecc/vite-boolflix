@@ -3,88 +3,94 @@
         <Loader />
     </div>
 
-    <div v-else class="mainDiv" :style="bgColor">
-        <div class="backdrop pt-5 pb-4" :style="'background-image: url(' + backdrop + ');'">
-            <div class="py-2 px-1 px-md-4 rounded poster mx-auto m-md-0">
-                <img class="img-fluid rounded" :src="url" :alt="title">
+    <Transition v-else>
+        <div class="mainDiv" :style="bgColor">
+            <div class="backdrop pt-5 pb-4" :style="'background-image: url(' + backdrop + ');'">
+                <div class="py-2 px-1 px-md-4 rounded poster mx-auto m-md-0">
+                    <img class="img-fluid rounded" :src="url" :alt="title">
+                </div>
             </div>
-        </div>
-        <div class="info py-2 px-3 px-md-4 d-md-flex" :style="textColor">
+            <div class="info py-2 px-3 px-md-4 d-md-flex" :style="textColor">
 
-            <div class="text-center text-white text-md-start col-12 col-md-5">
-                <h3 class="text-center text-md-start text-white fw-bold pt-4">{{ title }}</h3>
-                <span>{{ itemFound?.original_title }}</span>
-                <div class="stats">
-                    <span class="badge rounded-pill text-bg-info my-1">
-                        <span v-for="star in vote">
-                            <i :class="'bi bi-star'+star"></i>
+                <div class="text-center text-white text-md-start col-12 col-md-5">
+                    <h3 class="text-center text-md-start text-white fw-bold pt-4">{{ title }}</h3>
+                    <span>{{ itemFound?.original_title }}</span>
+                    <div class="stats">
+                        <span class="badge rounded-pill text-bg-info my-1">
+                            <span v-for="star in vote">
+                                <i :class="'bi bi-star' + star"></i>
+                            </span>
                         </span>
-                </span>
+
+                    </div>
+                    <div class="pb-4 stats">
+                        <span v-if="isMovie">{{ itemFound?.release_date?.split('-')[0] }}</span>
+                        <span v-if="isTv">{{ itemFound?.first_air_date?.split('-')[0] }}</span>
+                        -
+                        <img style="width:20px" :src="'/images/flags/language-' + itemFound?.original_language + '.svg'"
+                            :alt="itemFound?.original_language">
+                    </div>
+                </div>
+                <div class="col-12 col-md-7 pt-4">
+                    <small>
+                        {{ itemFound?.overview }}
+                    </small>
+
 
                 </div>
-                <div class="pb-4 stats">
-                    <span v-if="isMovie">{{ itemFound?.release_date?.split('-')[0] }}</span> 
-                    <span v-if="isTv">{{ itemFound?.first_air_date?.split('-')[0] }}</span>
-                    -
-                    <img style="width:20px" :src="'/images/flags/language-'+itemFound?.original_language+'.svg'" :alt="itemFound?.original_language">
+
+            </div>
+            <div class="d-md-flex px-4">
+                <div class="col-12 col-md-5 text-center">
+                    <h6 class="text-center text-md-start fw-bold text-white pt-3">
+                        Cast
+                        <span class="ms-2 badge rounded-pill text-bg-primary d-inline-block showall"
+                            @click="() => showCast = true">
+                            Mostra tutto
+                        </span>
+                    </h6>
+
+                    <div>
+                        <CastPreview :actors="cast" />
+                    </div>
+                </div>
+
+                <!-- TRAILER -->
+                <div class="col-12 col-md-7 d-flex flex-column justify-content-between" v-if="videoKey">
+                    <h6 class="text-center text-md-start fw-bold text-white py-3">Trailer</h6>
+                    <iframe width="100%" height="300px" :src="'https://www.youtube.com/embed/' + videoKey" frameborder="0"
+                        allowfullscreen>
+                    </iframe>
                 </div>
             </div>
-            <div class="col-12 col-md-7 pt-4">
-                <small>
-                    {{ itemFound?.overview }}
-                </small>
-
+            <div v-if="similar && isMovie">
+                <h6 class="pt-5 text-white px-4">Simili a {{ title }}</h6>
+                <div ref="similar" @wheel.stop="e => scroll(e, 'similar', 'counter')" class="containerList">
+                    <router-link @wheel.stop="e => scroll(e, 'similar', 'counter')" v-for="movie in similar"
+                        :to="'/movie/' + movie.id + '-' + movie.title">
+                        <SingleMovieCard :item="movie" :image="movie.poster_path" />
+                    </router-link>
+                </div>
 
             </div>
-
         </div>
-        <div class="d-md-flex px-4">
-            <div class="col-12 col-md-5 text-center">
-                <h6 class="text-center text-md-start fw-bold text-white pt-3">
-                    Cast
-                    <span class="ms-2 badge rounded-pill text-bg-primary d-inline-block showall" @click="() => showCast = true">
-                    Mostra tutto
-                </span>
-                </h6>
-                
-                <div>
-                    <CastPreview :actors="cast" />
-                </div>
-            </div>
-
-            <!-- TRAILER -->
-            <div class="col-12 col-md-7 d-flex flex-column justify-content-between" v-if="videoKey">
-                <h6 class="text-center text-md-start fw-bold text-white py-3">Trailer</h6>
-                <iframe width="100%" height="300px" :src="'https://www.youtube.com/embed/' + videoKey" frameborder="0"
-                    allowfullscreen>
-                </iframe>
-            </div>
-        </div>
-    <div v-if="similar && isMovie">
-        <h6 class="pt-5 text-white px-4">Simili a {{ title }}</h6>
-            <div ref="similar" @wheel.stop="e => scroll(e, 'similar', 'counter')" class="containerList">
-                <router-link @wheel.stop="e => scroll(e, 'similar', 'counter')" v-for="movie in similar" :to="'/movie/' + movie.id + '-' + movie.title">
-                <SingleMovieCard :item="movie" :image="movie.poster_path" />
-                     </router-link>
-            </div>
-
-    </div>
-    </div>
+    </Transition>
     <!-- CAST MODAL -->
     <Transition>
-    <div v-if="showCast" class="castShow shadow" :style="bgColor">
-        <div :style="textColor">
-            <div class="text-end">
-                <button @click="() => showCast = false" :style="textColor" class="btn"><i class="bi bi-x-lg"></i></button>
-            </div>
-            <h6 class="text-center">{{ title }} - Cast</h6>
-            <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 gx-0">
-                <ActorsProfile :actors="cast" />
-            </div>
+        <div v-if="showCast" class="castShow shadow" :style="bgColor">
+            <div :style="textColor">
+                <div class="text-end">
+                    <button @click="() => showCast = false" :style="textColor" class="btn"><i
+                            class="bi bi-x-lg"></i></button>
+                </div>
+                <h6 class="text-center">{{ title }} - Cast</h6>
+                <div class="row row-cols-2 row-cols-md-4 row-cols-lg-6 gx-0">
+                    <ActorsProfile :actors="cast" />
+                </div>
 
+            </div>
         </div>
-    </div>
-</Transition>
+    </Transition>
 </template>
 
 <script>
@@ -94,11 +100,11 @@ import ColorThief from 'colorthief/dist/color-thief.mjs'
 import ActorsProfile from '../src/components/ActorsProfile.vue';
 import CastPreview from '../src/components/CastPreview.vue';
 import SingleMovieCard from '../src/components/SingleMovieCard.vue';
-import {useGeneral} from '../stores/list';
+import { useGeneral } from '../stores/list';
 
 const {
-    API_URL, 
-    API_KEY, 
+    API_URL,
+    API_KEY,
     URL_IMG,
     GOOGLE_PROXY_URL,
     IT
@@ -108,14 +114,14 @@ const colorThief = new ColorThief();
 
 export default {
     components: {
-    Loader,
-    ActorsProfile,
-    CastPreview,
-    SingleMovieCard
-},
+        Loader,
+        ActorsProfile,
+        CastPreview,
+        SingleMovieCard
+    },
     data() {
         return {
-            loading:  null,
+            loading: null,
             isMovie: false,
             isTv: false,
             dbToSearch: null,
@@ -149,13 +155,15 @@ export default {
                 try {
                     const r = colorThief.getColor(img)[0];
                     const g = colorThief.getColor(img)[1];
-                    const a = colorThief.getColor(img)[2];
+                    const b = colorThief.getColor(img)[2];
 
-                    this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${a}) 80%, rgb(${r + 50}, ${g + 50}, ${a + 50}))`;
-                    this.textColor = `color: rgb(${r + 100}, ${g + 150}, ${a + 200})`;
+                    this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r + 50}, ${g + 50}, ${b + 50}))`;
+                    const luminance = 0.2126*r+0.7152*g+0.0722 *b;
+
+                    this.textColor = `mix-blend-mode: hard-light;`;
                     this.loading = false;
                 } catch (error) {
-                    this.bgColor = `background: linear-gradient(black, black)`;
+                    this.bgColor = `background: linear-gradient(black, #303030)`;
                     this.textColor = 'color: white'
                 }
 
@@ -194,9 +202,9 @@ export default {
         },
         scroll(e, ref, counter) {
             /* PREVENT TRACKPAD TO TRIGGER EVENT MORE THAN ONCE */
-            if (Math.abs(e.deltaY) < 4 ) return
-            
-           
+            if (Math.abs(e.deltaY) < 4) return
+
+
             let delta = e.deltaY;
             let box = this.$refs[ref];
 
@@ -234,10 +242,10 @@ export default {
     },
     created() {
         this.$watch(
-        () => this.$route.params,
-        (toParams) => {
-           window.location.href = toParams.name;
-        }
+            () => this.$route.params,
+            (toParams) => {
+                window.location.href = toParams.name;
+            }
         )
     },
     mounted() {
@@ -269,7 +277,7 @@ export default {
 
                 this.onLoadPage();
             }).catch(() => {
-                 window.location.href = '/404'
+                window.location.href = '/404'
             });
     }
 }
@@ -336,7 +344,7 @@ export default {
     font-size: 12px;
 }
 
-.containerList{
+.containerList {
     padding: 1rem 1.5rem;
     display: flex;
     align-items: center;
@@ -353,5 +361,4 @@ export default {
     &::-webkit-scrollbar {
         display: none;
     }
-}
-</style>
+}</style>
