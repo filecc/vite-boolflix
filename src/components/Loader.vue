@@ -26,5 +26,7 @@ export default {
     place-items: center;
     background-color: #202020;
     color: $fg-primary;
+    display: grid;
+    place-items: center;
 }
 </style>
