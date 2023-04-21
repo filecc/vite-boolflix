@@ -7,6 +7,8 @@ const routes = [
   { path: '/search',component: () => import('../views/Search.vue')},
   { path: '/movie/:name', component: () => import('../views/SingleItemDisplayDetail.vue') },
   { path: '/series/:name', component: () => import('../views/SingleItemDisplayDetail.vue') },
+  { path: '/tv/:name', component: () => import('../views/SingleItemDisplayDetail.vue') },
+  { path: '/actors/:name', component: () => import('../views/SingleActor.vue') },
 ];
 
 

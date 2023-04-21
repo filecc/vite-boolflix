@@ -1,15 +1,17 @@
 <template>
     <div v-for="actor in actors">
-        
+        <router-link :to="'/actors/' + actor?.id + '-'+ actor?.name">
             <div class="col text-center p-2">
                 <img class="img-fluid" :src="
-                    actor.profile_path ?
-                    store.URL_IMG + actor.profile_path 
-                    : '/images/img-placeholder.svg'" :alt="actor.name">
+                    actor?.profile_path ?
+                    store.URL_IMG + actor?.profile_path 
+                    : '/images/img-placeholder.svg'" :alt="actor?.name">
                 <h6 class="mt-2 text-white">{{ actor?.name }}</h6>
                 <small>({{ actor?.character }})</small>
                
             </div>
+            </router-link>
+            
             
         
        
@@ -27,11 +29,10 @@ const store = useMovieList();
             return {
                 store, 
                 BASE_URL: store.URL_IMG,
-               
             }
         },
         mounted(){
-            console.log(this.actors)
+           
         }
     }
 </script>
