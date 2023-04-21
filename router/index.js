@@ -5,8 +5,8 @@ const routes = [
   { path: '/404', component: () => import('../views/NotFound.vue') },  
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('../views/NotFound.vue') },
   { path: '/search',component: () => import('../views/Search.vue')},
-  { path: '/movie/:name', component: () => import('../views/MovieGeneric.vue') },
-  { path: '/series/:name', component: () => import('../views/TvGeneric.vue') },
+  { path: '/movie/:name', component: () => import('../views/SingleItemDisplayDetail.vue') },
+  { path: '/series/:name', component: () => import('../views/SingleItemDisplayDetail.vue') },
 ];
 
 

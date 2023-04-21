@@ -1,5 +1,5 @@
 <template>
-    <div v-if="store.loading">
+    <div v-if="loading">
         <Loader />
     </div>
 
@@ -13,7 +13,7 @@
 
             <div class="text-center text-white text-md-start col-12 col-md-5">
                 <h3 class="text-center text-md-start text-white fw-bold pt-4">{{ title }}</h3>
-                <span>{{ movieFound?.original_title }}</span>
+                <span>{{ itemFound?.original_title }}</span>
                 <div class="stats">
                     <span class="badge rounded-pill text-bg-info my-1">
                         <span v-for="star in vote">
@@ -23,13 +23,15 @@
 
                 </div>
                 <div class="pb-4 stats">
-                    <span>{{ movieFound?.release_date.split('-')[0] }}</span> -
-                    <img style="width:20px" :src="'/images/flags/language-'+movieFound?.original_language+'.svg'" :alt="movieFound?.original_language">
+                    <span v-if="isMovie">{{ itemFound?.release_date?.split('-')[0] }}</span> 
+                    <span v-if="isTv">{{ itemFound?.first_air_date?.split('-')[0] }}</span>
+                    -
+                    <img style="width:20px" :src="'/images/flags/language-'+itemFound?.original_language+'.svg'" :alt="itemFound?.original_language">
                 </div>
             </div>
             <div class="col-12 col-md-7 pt-4">
                 <small>
-                    {{ movieFound?.overview }}
+                    {{ itemFound?.overview }}
                 </small>
 
 
@@ -58,10 +60,10 @@
                 </iframe>
             </div>
         </div>
-    <div v-if="similar">
+    <div v-if="similar && isMovie">
 
         <h6 class="pt-5 text-white px-4">Simili a {{ title }}</h6>
-            <div ref="similar" @wheel.self="e => scroll(e, 'similar', 'counter')" class="containerPopular">
+            <div ref="similar" @wheel.self="e => scroll(e, 'similar', 'counter')" class="containerList">
                 <router-link v-for="movie in similar" :to="'/movie/' + movie.id + '-' + movie.title">
                 <SingleMovieCard :item="movie" :image="movie.poster_path" />
                      </router-link>
@@ -88,14 +90,21 @@
 
 <script>
 import axios from 'axios';
-import { useMovieList } from '../stores/list';
 import Loader from '../src/components/Loader.vue'
 import ColorThief from 'colorthief/dist/color-thief.mjs'
 import ActorsProfile from '../src/components/ActorsProfile.vue';
 import CastPreview from '../src/components/CastPreview.vue';
 import SingleMovieCard from '../src/components/SingleMovieCard.vue';
+import {useGeneral} from '../stores/list';
 
-const store = useMovieList();
+const {
+    API_URL, 
+    API_KEY, 
+    URL_IMG,
+    GOOGLE_PROXY_URL,
+    IT
+} = useGeneral();
+
 const colorThief = new ColorThief();
 
 export default {
@@ -107,11 +116,13 @@ export default {
 },
     data() {
         return {
-            store,
+            loading:  null,
+            isMovie: false,
+            isTv: false,
+            dbToSearch: null,
             title: null,
             id: null,
-            movieFound: null,
-            BASE_URL: store.URL_IMG,
+            itemFound: null,
             url: null,
             backdrop: null,
             bgColor: null,
@@ -125,23 +136,70 @@ export default {
         }
     },
     methods: {
-        loading() {
-            this.store.loadingTrue();
-        },
-        loadingFalse() {
-            this.store.loadingFalse();
-        },
-        getCastInfo(id) {
-            const query = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`;
+        getCastInfo() {
+            const query = API_URL + this.dbToSearch + this.id + '/credits' + API_KEY + IT;
+            console.log(query)
             axios.get(query).then(res => { this.cast = res.data.cast });
         },
-        scroll(e, ref, counter){
-            let delta =  e.deltaY;   
-            let box = this.$refs[ref];    
-            
+        getBackdropColor() {
+            const img = new Image();
+            let imageURL = this.backdrop;
+            img.crossOrigin = 'Anonymous';
+            img.src = GOOGLE_PROXY_URL + encodeURIComponent(imageURL);
+            setTimeout(() => {
+                try {
+                    const r = colorThief.getColor(img)[0];
+                    const g = colorThief.getColor(img)[1];
+                    const a = colorThief.getColor(img)[2];
+
+                    this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${a}) 80%, rgb(${r + 50}, ${g + 50}, ${a + 50}))`;
+                    this.textColor = `color: rgb(${r + 100}, ${g + 150}, ${a + 200})`;
+                    this.loading = false;
+                } catch (error) {
+                    this.bgColor = `background: linear-gradient(black, black)`;
+                    this.textColor = 'color: white'
+                }
+
+                this.loading = false;
+            }, 500)
+        },
+        getVideos() {
+            const videoQueryIT = API_URL + this.dbToSearch + this.id + '/videos' + API_KEY + IT;
+            axios.get(videoQueryIT).then(res => {
+                this.videoKey = res.data?.results[0]?.key
+                if (res.data.results.length === 0) {
+                    axios.get(API_URL + this.dbToSearch + this.id + '/videos' + API_KEY + '&language=en-US').
+                        then(res => {
+                            this.videoKey = res.data?.results[0]?.key
+                        })
+                }
+
+            })
+        },
+        getSimilar() {
+            const similarQuery = API_URL + this.dbToSearch + this.id + '/recommendations' + API_KEY + '&language=en-US&page=1';
+            axios.get(similarQuery)
+                .then(res => {
+                    if (res.data.results.length > 0) {
+                        this.similar = res.data.results;
+                    }
+                })
+        },
+        onLoadPage() {
+            this.getVote();
+            this.getCastInfo();
+            this.getVideos();
+            this.getSimilar();
+            /* ALWAYS LAST METHOD TO CALL */
+            this.getBackdropColor();
+        },
+        scroll(e, ref, counter) {
+            let delta = e.deltaY;
+            let box = this.$refs[ref];
+
             const divScrollable = box.scrollWidth;
- 
-            if (this[counter]=== 0){
+
+            if (this[counter] === 0) {
                 this[counter] = 0;
                 delta < 0 ? (this[counter] -= 0) : (this[counter] += 100);
                 box.scrollTo(this[counter], 0);
@@ -153,96 +211,60 @@ export default {
                 box.scrollTo(this[counter], 0);
             }
         },
-        getVote(){
-            const average = Math.round(parseInt(this.movieFound.vote_average) / 2);
-            while(this.vote.length < 5){
-                for(let i=0;i<average;i++){
+        getVote() {
+            const average = Math.round(parseInt(this.itemFound.vote_average) / 2);
+            while (this.vote.length < 5) {
+                for (let i = 0; i < average; i++) {
                     this.vote.push('-fill');
                 }
-                for(let i=this.vote.length;i<5;i++){
+                for (let i = this.vote.length; i < 5; i++) {
                     this.vote.push(' ');
                 }
-               
+
             }
-            console.log(this.vote)
         }
 
     },
-        created() {
+    created() {
         this.$watch(
         () => this.$route.params,
         (toParams) => {
-            
            window.location.href = toParams.name;
         }
         )
     },
     mounted() {
-        this.loading();
+        this.loading = true;
+
         const split = this.$route.params.name.split('-');
         this.title = split[1];
         this.id = split[0];
-        const query = 'https://api.themoviedb.org/3/movie/' + this.id + '?api_key=d18b4066572abd6df624614e95914560&language=it-IT';
+        const movieOrTv = this.$route.path.split('/')[1];
+        if (movieOrTv === 'movie') {
+            this.isMovie = true;
+            this.isTv = false;
+            this.dbToSearch = 'movie/'
+        } else {
+            this.isTv = true
+            this.isMovie = false;
+            this.dbToSearch = 'tv/'
+        }
+
+        const query = API_URL + this.dbToSearch + this.id + API_KEY + IT;
 
         axios.get(query)
             .then(res => {
-                this.movieFound = res.data;
-                !this.movieFound.poster_path 
-                ? this.url = '/images/img-placeholder.svg'
-                : this.url = `${this.BASE_URL}${this.movieFound.poster_path}`;
-                this.backdrop = `${this.BASE_URL}${this.movieFound.backdrop_path}`;
-                this.getVote();
-                this.loadingFalse();
+                this.itemFound = res.data;
+                !this.itemFound.poster_path
+                    ? this.url = IMG_PLACEHOLDER
+                    : this.url = `${URL_IMG}${this.itemFound.poster_path}`;
+                this.backdrop = `${URL_IMG}${this.itemFound.backdrop_path}`;
 
-                const img = new Image();
-                let imageURL = this.backdrop;
-                let googleProxyURL = 'https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=2592000&url=';
-                img.crossOrigin = 'Anonymous';
-                img.src = googleProxyURL + encodeURIComponent(imageURL);
-                setTimeout(() => {
-                    try {
-                        const r = colorThief.getColor(img)[0];
-                        const g = colorThief.getColor(img)[1];
-                        const a = colorThief.getColor(img)[2];
-
-                        this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${a}) 80%, rgb(${r + 50}, ${g + 50}, ${a + 50}))`;
-                        this.textColor = `color: rgb(${r + 100}, ${g + 150}, ${a + 200})`;
-                        console.log(this.bgColor)
-                        console.log('text ' + this.textColor)
-                    } catch (error) {
-                        this.bgColor = `background: linear-gradient(black, black)`;
-                        this.textColor = 'color: white'
-                    }
-
-                }, 500)
+                this.onLoadPage();
+            }).catch(() => {
+                 window.location.href = '/404'
             });
-        const videoQuery = `https://api.themoviedb.org/3/movie/${split[0]}/videos?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT`
-        axios.get(videoQuery).then(res => {
-            console.log(res.data)
-            this.videoKey = res.data?.results[0]?.key
-            if (res.data.results.length === 0) {
-                axios.get(`https://api.themoviedb.org/3/movie/${split[0]}/videos?api_key=c60495b897d3871eb954459412ca5d5d&language=en-US`).
-                    then(res => {
-                        this.videoKey = res.data?.results[0]?.key
-                    })
-
-            }
-
-        })
-        axios.get(`https://api.themoviedb.org/3/movie/${split[0]}/recommendations?api_key=c60495b897d3871eb954459412ca5d5d&language=en-US&page=1`)
-        .then(res => {
-            if (res.data.results.length > 0){
-                this.similar = res.data.results;
-            }
-            
-            console.log(this.similar)
-        })
-        
-        this.getCastInfo(split[0]);
-
-
     }
-
 }
 </script>
 
@@ -307,7 +329,7 @@ export default {
     font-size: 12px;
 }
 
-.containerPopular{
+.containerList{
     padding: 1rem 1.5rem;
     display: flex;
     align-items: center;

@@ -1,7 +1,11 @@
 <template>
     <div class="loading">
 
-        <i class="bi bi-arrow-repeat"></i>
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -12,16 +16,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.loading{
-        font-size: 5rem;
-        position: absolute;
-        width: 100%;
-        top: 0;
-        bottom: 0;
-        display: grid;
-        place-items: center;
-        background-color: rgba(0, 0, 0, 0.641);
-        color: white;
-    }
-
+@use '../assets/style/variables' as *;
+.loading {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    display: grid;
+    place-items: center;
+    background-color: #202020;
+    color: $fg-primary;
+}
 </style>
