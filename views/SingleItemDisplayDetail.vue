@@ -61,7 +61,6 @@
             </div>
         </div>
     <div v-if="similar && isMovie">
-
         <h6 class="pt-5 text-white px-4">Simili a {{ title }}</h6>
             <div ref="similar" @wheel.self="e => scroll(e, 'similar', 'counter')" class="containerList">
                 <router-link v-for="movie in similar" :to="'/movie/' + movie.id + '-' + movie.title">

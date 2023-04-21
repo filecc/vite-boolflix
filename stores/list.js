@@ -64,6 +64,15 @@ export const useGeneral = defineStore('general', {
         URL_IMG: 'https://image.tmdb.org/t/p/original',
         GOOGLE_PROXY_URL: 'https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=2592000&url=',
         IMG_PLACEHOLDER: '/images/img-placeholder.svg',
-        IT: '&language=it-IT'
+        IT: '&language=it-IT',
+        loading: true,
     }),
+    actions: {
+        setLoadingTrue() {
+            this.loading = true;
+        },
+        setLoadingFalse(){
+            this.loading = false;
+        }
+    }
 })
