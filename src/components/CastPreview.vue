@@ -1,47 +1,21 @@
 <template>
-    
+
+
         <div v-if="actors" class="row row-cols-2  gx-0 text-white">
-            <div v-if="actors[0]" class="col text-center p-2">
-                <img class="img-fluid rounded-circle" :src="
+            <div v-for="actor in [0,1,2,3]">
+                <div v-if="actors[actor]" class="col text-center p-2">
+                <router-link :to="'/actors/' + actors[actor].id + '-' + actors[actor].name">
+                    <img class="img-fluid rounded-circle" :src="
                     actors[0].profile_path ?
-                    store.URL_IMG + actors[0].profile_path 
-                    : '/images/img-placeholder.svg'" :alt="actors[0].name">
-                <h6 class="mt-2 text-white">{{ actors[0]?.name }}</h6>
-                <small>({{ actors[0]?.character }})</small>
-               
+                    store.URL_IMG + actors[actor].profile_path 
+                    : '/images/img-placeholder.svg'" :alt="actors[actor].name">
+                </router-link>
+                <h6 class="mt-2 text-white">{{ actors[actor]?.name }}</h6>
+                <small>({{ actors[actor]?.character }})</small>
             </div>
-            <div v-if="actors[1]" class="col text-center p-2">
-                <img class="img-fluid rounded-circle" :src="
-                    actors[1].profile_path ?
-                    store.URL_IMG + actors[1].profile_path 
-                    : '/images/img-placeholder.svg'" :alt="actors[1].name">
-                <h6 class="mt-2 text-white">{{ actors[1]?.name }}</h6>
-                <small>({{ actors[1]?.character }})</small>
-               
-            </div>
-            <div v-if="actors[2]" class="col text-center p-2">
-                <img class="img-fluid rounded-circle" :src="
-                    actors[2].profile_path ?
-                    store.URL_IMG + actors[2].profile_path 
-                    : '/images/img-placeholder.svg'" :alt="actors[2].name">
-                <h6 class="mt-2 text-white">{{ actors[2]?.name }}</h6>
-                <small>({{ actors[2]?.character }})</small>
-               
-            </div>
-            <div v-if="actors[3]" class="col text-center p-2">
-                <img class="img-fluid rounded-circle" :src="
-                    actors[3].profile_path ?
-                    store.URL_IMG + actors[3].profile_path 
-                    : '/images/img-placeholder.svg'" :alt="actors[3].name">
-                <h6 class="mt-2 text-white">{{ actors[3]?.name }}</h6>
-                <small>({{ actors[3]?.character }})</small>
-               
             </div>
         </div>
            
-        
-       
-   
 </template>
 
 <script>

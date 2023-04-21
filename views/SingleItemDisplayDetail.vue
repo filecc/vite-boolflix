@@ -78,7 +78,7 @@
                 </div>
 
                 <!-- TRAILER -->
-                <div class="col-12 col-md-7 d-flex flex-column justify-content-between" v-if="videoKey">
+                <div class="col-12 col-md-7 d-flex flex-column" v-if="videoKey">
                     <h6 class="text-center text-md-start fw-bold text-white py-3">Trailer</h6>
                     <iframe width="100%" height="300px" :src="'https://www.youtube.com/embed/' + videoKey" frameborder="0"
                         allowfullscreen>

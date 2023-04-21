@@ -4,21 +4,21 @@
     </div>
     <div v-else class="text-white pt-5 px-4 mainContainer">
         <div class="row row-cols-1 row-cols-md-2 mt-4">
-            <div class="col text-center p-2">
-                <img class="img-fluid" :src="
+            <div class="col p-2 d-flex align-items-center justify-content-center">
+                <img style="max-width: 20rem;" class="img-fluid" :src="
                     actor?.profile_path ?
                         URL_IMG + actor?.profile_path
                         : '/images/img-placeholder.svg'" :alt="actor?.name">
             </div>
             <div class="col">
                 <h2 class="mt-2 text-white">{{ actor?.name }}</h2>
-                <p v-if="actor.birthday">Nato il: {{
+                <p v-if="actor.birthday">Data di nascita: {{
                     actor.birthday.split('-')[1] + '-' +
                     actor.birthday.split('-')[2] + '-' +
                     actor.birthday.split('-')[0]
                 }} <span v-if="!actor.deathday">{{ ` (${parseInt(todayYear) - parseInt(actor.birthday.split('-')[0])}
                         anni)`}}</span></p>
-                <p v-if="actor.deathday">Morto il: {{
+                <p v-if="actor.deathday">Data di morte: {{
                     actor.deathday.split('-')[1] + '-' +
                     actor.deathday.split('-')[2] + '-' +
                     actor.deathday.split('-')[0] + ` (${parseInt(actor.deathday) - parseInt(actor.birthday)} anni)`
