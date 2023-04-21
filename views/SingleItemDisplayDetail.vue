@@ -185,7 +185,7 @@ export default {
                     const g = colorThief.getColor(img)[1];
                     const b = colorThief.getColor(img)[2];
 
-                    this.bgColor = `background: llinear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r}, ${g}, ${b}) 80%);`;
+                    this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r}, ${g}, ${b}) 80%);`;
                     this.textColor = `color: rgb(${4*r+20},${4*g+20},${4*b+20});`;
                     this.bodyColor = `linear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r}, ${g}, ${b}) 80%)`;
                     this.changedBackground = true;
