@@ -1,5 +1,5 @@
 <template>
-  <div id="layoutNav" class="d-flex justify-content-between align-items-center px-4 py-2">
+  <div class="layoutNav d-flex justify-content-between align-items-center px-4 py-2">
     <router-link to="/">
       <Navbar />
     </router-link>
@@ -13,8 +13,10 @@
   <div v-else>
     <router-view />
   </div>
-
+<div class="layoutFooter">
   <AppFooter />
+</div>
+ 
 </template>
 
 <script>
@@ -88,11 +90,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-#layoutNav {
+.layoutNav {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
 }
+
 </style>

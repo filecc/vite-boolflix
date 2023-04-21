@@ -90,6 +90,11 @@ export default {
     color: white;
 }
 
+.mainContainer{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .containerPopular {
     padding: 1rem 0;
     display: flex;

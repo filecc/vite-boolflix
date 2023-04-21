@@ -88,6 +88,8 @@ export default {
 
 .mainContainer {
     min-height: calc(100dvh - 80px);
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 input {

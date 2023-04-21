@@ -10,6 +10,7 @@
                     <img class="img-fluid rounded" :src="url" :alt="title">
                 </div>
             </div>
+            <div class="bodyDiv">
             <div class="info py-2 px-3 px-md-4 d-md-flex" :style="textColor">
 
                 <div class="text-center text-white text-md-start col-12 col-md-5">
@@ -73,6 +74,7 @@
                 </div>
 
             </div>
+        </div>
         </div>
     </Transition>
     <!-- CAST MODAL -->
@@ -138,6 +140,8 @@ export default {
             counter: 0,
             similar: null,
             vote: [],
+            changedBackground: false,
+            bodyColor: '#202020',
         }
     },
     methods: {
@@ -157,13 +161,14 @@ export default {
                     const g = colorThief.getColor(img)[1];
                     const b = colorThief.getColor(img)[2];
 
-                    this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r + 50}, ${g + 50}, ${b + 50}))`;
-                    const luminance = 0.2126*r+0.7152*g+0.0722 *b;
-
-                    this.textColor = `mix-blend-mode: hard-light;`;
+                    this.bgColor = `background: llinear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r}, ${g}, ${b}) 80%);`;
+                    this.textColor = `color: rgb(${4*r+20},${4*g+20},${4*b+20});`;
+                    this.bodyColor = `linear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r}, ${g}, ${b}) 80%)`;
+                    this.changedBackground = true;
                     this.loading = false;
                 } catch (error) {
                     this.bgColor = `background: linear-gradient(black, #303030)`;
+                    this.bodyColor = `#202020`;
                     this.textColor = 'color: white'
                 }
 
@@ -240,6 +245,12 @@ export default {
         }
 
     },
+    watch: {
+        changedBackground(){
+            document.querySelector('body').style.background = this.bodyColor;
+            
+        }
+    },
     created() {
         this.$watch(
             () => this.$route.params,
@@ -250,7 +261,6 @@ export default {
     },
     mounted() {
         this.loading = true;
-
         const split = this.$route.params.name.split('-');
         this.title = split[1];
         this.id = split[0];
@@ -274,7 +284,7 @@ export default {
                     ? this.url = IMG_PLACEHOLDER
                     : this.url = `${URL_IMG}${this.itemFound.poster_path}`;
                 this.backdrop = `${URL_IMG}${this.itemFound.backdrop_path}`;
-
+                
                 this.onLoadPage();
             }).catch(() => {
                 window.location.href = '/404'
@@ -289,6 +299,12 @@ export default {
 .mainDiv {
     min-height: 100dvh;
     padding-bottom: 3rem;
+   
+}
+
+.bodyDiv{
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .backdrop {

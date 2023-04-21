@@ -30,7 +30,6 @@ export default {
 
 <style lang="scss" scoped>
     .card{
-        width: 15rem;
         min-width: 15rem;
         max-width: 15rem;
         border: none;
