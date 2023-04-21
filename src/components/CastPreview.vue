@@ -57,9 +57,6 @@ const store = useMovieList();
                 BASE_URL: store.URL_IMG,
                
             }
-        },
-        mounted(){
-            console.log(this.actors)
         }
     }
 </script>

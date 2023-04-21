@@ -31,6 +31,22 @@
                         <img style="width:20px" :src="'/images/flags/language-' + itemFound?.original_language + '.svg'"
                             :alt="itemFound?.original_language">
                     </div>
+                    <div v-if="providers" class="text-start">
+                        <h6>Disponibile su</h6>
+                        <small  class="d-inline-block mb-2">Streaming</small>
+                        <div v-if="providers?.flatrate" class="d-flex flex-wrap  justify-content-center justify-content-md-start align-items-center gap-2 mb-3">
+                            <div v-for="service in providers?.flatrate" >
+                                <img class="providersImg" :src="imgURL + service.logo_path" :alt="service.provider_name">
+                            </div>
+                        </div>
+                        <small  class="d-inline-block mb-2"  v-if="providers?.buy">Acquista</small>
+                        <div v-if="providers?.buy" class="d-flex flex-wrap justify-content-center justify-content-md-start align-items-center gap-2 mb-3">
+                            <div v-for="service in providers?.buy" >
+                                <img class="providersImg" :src="imgURL + service.logo_path" :alt="service.provider_name">
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
                 <div class="col-12 col-md-7 pt-4">
                     <small>
@@ -64,6 +80,7 @@
                     </iframe>
                 </div>
             </div>
+
             <div v-if="similar && isMovie">
                 <h6 class="pt-5 text-white px-4">Simili a {{ title }}</h6>
                 <div ref="similar" @wheel.stop="e => scroll(e, 'similar', 'counter')" class="containerList">
@@ -103,6 +120,7 @@ import ActorsProfile from '../src/components/ActorsProfile.vue';
 import CastPreview from '../src/components/CastPreview.vue';
 import SingleMovieCard from '../src/components/SingleMovieCard.vue';
 import { useGeneral } from '../stores/list';
+import { provide, setTransitionHooks } from 'vue';
 
 const {
     API_URL,
@@ -135,6 +153,7 @@ export default {
             bgColor: null,
             textColor: null,
             cast: null,
+            providers: null,
             showCast: false,
             videoKey: null,
             counter: 0,
@@ -142,12 +161,12 @@ export default {
             vote: [],
             changedBackground: false,
             bodyColor: '#202020',
+            imgURL: null
         }
     },
     methods: {
         getCastInfo() {
             const query = API_URL + this.dbToSearch + this.id + '/credits' + API_KEY + IT;
-            console.log(query)
             axios.get(query).then(res => { this.cast = res.data.cast });
         },
         getBackdropColor() {
@@ -197,11 +216,36 @@ export default {
                     }
                 })
         },
+        getProviders(){
+            const availableProviders = API_URL + this.dbToSearch + this.id + '/watch/providers' + API_KEY;
+            console.log(availableProviders);
+
+            axios.get(availableProviders)
+            .then(res => {
+                this.providers = res.data.results.IT;   
+                console.log(this.providers) 
+            }).catch(() => {
+                this.providers = null;
+            });
+        },
+        getVote() {
+            const average = Math.round(parseInt(this.itemFound.vote_average) / 2);
+            while (this.vote.length < 5) {
+                for (let i = 0; i < average; i++) {
+                    this.vote.push('-fill');
+                }
+                for (let i = this.vote.length; i < 5; i++) {
+                    this.vote.push(' ');
+                }
+
+            }
+        },
         onLoadPage() {
             this.getVote();
             this.getCastInfo();
             this.getVideos();
             this.getSimilar();
+            this.getProviders();
             /* ALWAYS LAST METHOD TO CALL */
             this.getBackdropColor();
         },
@@ -230,18 +274,6 @@ export default {
                 box.scrollTo(this[counter], 0);
             }
 
-        },
-        getVote() {
-            const average = Math.round(parseInt(this.itemFound.vote_average) / 2);
-            while (this.vote.length < 5) {
-                for (let i = 0; i < average; i++) {
-                    this.vote.push('-fill');
-                }
-                for (let i = this.vote.length; i < 5; i++) {
-                    this.vote.push(' ');
-                }
-
-            }
         }
 
     },
@@ -261,6 +293,7 @@ export default {
     },
     mounted() {
         this.loading = true;
+        this.imgURL = URL_IMG;
         const split = this.$route.params.name.split('-');
         this.title = split[1];
         this.id = split[0];
@@ -377,4 +410,14 @@ export default {
     &::-webkit-scrollbar {
         display: none;
     }
-}</style>
+}
+
+.providersImg{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+
+</style>
