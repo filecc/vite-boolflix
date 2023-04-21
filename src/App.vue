@@ -90,7 +90,9 @@ export default {
 <style lang="scss" scoped>
 #layoutNav {
   position: absolute;
-  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
 }
 </style>
