@@ -33,6 +33,7 @@ export default {
         width: 15rem;
         min-width: 15rem;
         max-width: 15rem;
+        border: none;
        
         img{
             object-fit: cover;

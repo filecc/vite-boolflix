@@ -1,5 +1,5 @@
 <template>
-  <div id="layoutNav" class="d-flex justify-content-between align-items-center p-2">
+  <div id="layoutNav" class="d-flex justify-content-between align-items-center px-4 py-2">
     <router-link to="/">
       <Navbar />
     </router-link>
