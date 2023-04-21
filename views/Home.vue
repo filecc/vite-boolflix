@@ -1,5 +1,8 @@
 <template>
-    <div class="p-4 mainContainer">
+    <div v-if="GENERAL.loading">
+        <Loader />
+    </div>
+    <div v-else class="p-4 mainContainer">
         <h2 class="pt-5">Film Popolari</h2>
         <div @whee.stop="e => scroll(e, 'movie_container', 'counter1')" ref="movie_container" class="containerPopular">
             <router-link @wheel.stop="e => scroll(e, 'movie_container', 'counter1')" v-for="movie in movies.list"
@@ -27,8 +30,9 @@
 </template>
 
 <script>
+import Loader from '../src/components/Loader.vue';
 import SingleMovieCard from '../src/components/SingleMovieCard.vue';
-import { useMovieList, useSeriesList, useMovieToprated } from '../stores/list';
+import { useMovieList, useSeriesList, useMovieToprated, useGeneral } from '../stores/list';
 const movies = useMovieList();
 const series = useSeriesList();
 const topRated = useMovieToprated();
@@ -41,7 +45,9 @@ export default {
             topRated,
             counter1: 0,
             counter2: 0,
-            counter3: 0
+            counter3: 0,
+            GENERAL: useGeneral(),
+
         };
     },
     methods: {
@@ -75,7 +81,7 @@ export default {
 
         }
     },
-    components: { SingleMovieCard }
+    components: { SingleMovieCard, Loader }
 }
 </script>
 
