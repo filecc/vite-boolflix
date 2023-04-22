@@ -69,6 +69,17 @@ export default {
         }).catch(()=> {
           errors = true;
         });
+      
+      
+      axios.get('https://api.themoviedb.org/3/genre/movie/list?api_key=d18b4066572abd6df624614e95914560&language=it-IT').then(res => {
+        const movieGenres = res.data.genres;
+        GENERAL.setMovieGenres(movieGenres);
+      })
+
+      axios.get('https://api.themoviedb.org/3/genre/tv/list?api_key=d18b4066572abd6df624614e95914560&language=it-IT').then(res => {
+        const tvGenres = res.data.genres;
+        GENERAL.setTvGenres(tvGenres);
+      });
 
         if (!errors) {
           setTimeout(() => {
@@ -78,7 +89,7 @@ export default {
           window.location.href = '/404'
         }
         
-
+       
         
     }
   },

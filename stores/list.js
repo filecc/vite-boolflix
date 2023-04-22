@@ -66,6 +66,8 @@ export const useGeneral = defineStore('general', {
         IMG_PLACEHOLDER: '/images/img-placeholder.svg',
         IT: '&language=it-IT',
         loading: true,
+        movieGenres: null,
+        tvGenres: null,
     }),
     actions: {
         setLoadingTrue() {
@@ -73,6 +75,12 @@ export const useGeneral = defineStore('general', {
         },
         setLoadingFalse(){
             this.loading = false;
+        },
+        setMovieGenres(list){
+            this.movieGenres = list;
+        },
+        setTvGenres(list){
+            this.tvGenres = list
         }
     }
 })

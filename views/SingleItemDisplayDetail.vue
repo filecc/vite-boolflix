@@ -22,7 +22,11 @@
                                 <i :class="'bi bi-star' + star"></i>
                             </span>
                         </span>
-
+                    </div>
+                    <div class="d-flex flex-wrap justify-content-center justify-content-md-start align-items-center gap-1 my-2">
+                        <span class="badge rounded-pill text-bg-secondary my-1" v-for="genre in itemFound?.genres">
+                                {{ genre.name }}
+                        </span>
                     </div>
                     <div class="pb-4 stats">
                         <span v-if="isMovie">{{ itemFound?.release_date?.split('-')[0] }}</span>
@@ -32,7 +36,7 @@
                             :alt="itemFound?.original_language">
                     </div>
                     <div v-if="providers" class="text-start">
-                        <Providers :providers="providers" />
+                        <Providers :providers="providers" :title="title" />
                     </div>
                 </div>
                 <div class="col-12 col-md-7 pt-4">
@@ -114,7 +118,8 @@ const {
     API_KEY,
     URL_IMG,
     GOOGLE_PROXY_URL,
-    IT
+    IT,
+    movieGenres
 } = useGeneral();
 
 const colorThief = new ColorThief();
@@ -129,6 +134,7 @@ export default {
     },
     data() {
         return {
+            movieGenres,
             loading: null,
             isMovie: false,
             isTv: false,
