@@ -56,7 +56,6 @@ export default {
     },
     methods: {
         search() {
-            console.log(this.searchingQuery);
             if (this.searchingQuery.length > 0) {
                 this.loading = true;
                 axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c60495b897d3871eb954459412ca5d5d&language=it&query=${this.searchingQuery}`).then(res => {
