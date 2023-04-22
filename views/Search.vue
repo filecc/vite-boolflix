@@ -3,7 +3,7 @@
         <div class="flex-grow-1">
             <h5>Cerca</h5>
             <input @input="search" v-model="searchingQuery" class="input-group-text w-100 text-start mb-3" type="text"
-                placeholder="Nome del film">
+                placeholder="Nome del film o serie TV">
         </div>
 
         <h5 class="pt-3" v-if="movieResult">Film per la tua ricerca</h5>

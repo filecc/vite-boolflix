@@ -6,7 +6,7 @@
                 <div v-if="actors[actor]" class="col text-center p-2">
                 <router-link :to="'/actors/' + actors[actor].id + '-' + actors[actor].name">
                     <img class="img-fluid rounded-circle" :src="
-                    actors[0].profile_path ?
+                    actors[actor].profile_path ?
                     store.URL_IMG + actors[actor].profile_path 
                     : '/images/img-placeholder.svg'" :alt="actors[actor].name">
                 </router-link>
