@@ -2,7 +2,7 @@
 
 Live Site available at [here](https://filecc-boolflix.vercel.app)
 
-To run the project localli simply, ```git clone``` and
+To run the project locally simply, ```git clone``` and
 
 ```
 npm i
