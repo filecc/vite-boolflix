@@ -22,7 +22,7 @@
 <script>
 import Navbar from './components/Navbar.vue';
 import axios from 'axios';
-import { useMovieList, useSeriesList, useMovieToprated, useGeneral } from '../stores/list';
+import { useMovieList, useSeriesList, useMovieToprated, useGeneral, useMoviePerGenresList } from '../stores/list';
 import AppFooter from './components/AppFooter.vue';
 import Loader from './components/Loader.vue';
 
@@ -74,12 +74,22 @@ export default {
       axios.get('https://api.themoviedb.org/3/genre/movie/list?api_key=d18b4066572abd6df624614e95914560&language=it-IT').then(res => {
         const movieGenres = res.data.genres;
         GENERAL.setMovieGenres(movieGenres);
+        
+        const arrayOfGenres = [];
+        movieGenres.forEach(element => {
+          arrayOfGenres.push({id: element.id, name: element.name});
+        });
+        const moviePerGenres = useMoviePerGenresList();
+        moviePerGenres.getMoviesPerGenres(arrayOfGenres)
       })
 
       axios.get('https://api.themoviedb.org/3/genre/tv/list?api_key=d18b4066572abd6df624614e95914560&language=it-IT').then(res => {
         const tvGenres = res.data.genres;
+       
         GENERAL.setTvGenres(tvGenres);
       });
+
+      
 
         if (!errors) {
           setTimeout(() => {

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import axios from 'axios';
 
 export const useMovieList = defineStore('movie-list', {
     state: () => ({ 
@@ -53,6 +54,31 @@ export const useMovieToprated = defineStore('top-rated-movie', {
         },
         loadingTrue(){
             this.loading = true;
+        }
+    }
+})
+
+export const useMoviePerGenresList = defineStore('movie-per-genres', {
+    state: () => ({
+        list: []
+    }), 
+    actions: {
+        getMoviesPerGenres(genres){
+           genres.forEach(element => {
+            const query =
+            "https://api.themoviedb.org/3/discover/movie?api_key=d18b4066572abd6df624614e95914560&language=it-IT&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&primary_release_date.gte=2021&vote_average.gte=3&with_genres=" +
+            element.id;
+            axios
+            .get(query)
+            .then((res) => {
+              this.list.push({name: element.name, movies: res.data.results })
+            })
+            .catch(() => {
+              console.log('error with id ' + element)
+            });
+           });
+          
+
         }
     }
 })

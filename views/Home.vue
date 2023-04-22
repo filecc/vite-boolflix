@@ -26,16 +26,29 @@
                 <SingleMovieCard :item="movie" :image="movie.poster_path" />
             </router-link>
         </div>
+
+        <div v-for="item in arrayOfMoviesPerGenres">
+            <h2 class="pt-5"> Ultime uscite in {{item.name }}</h2>
+            <div class="containerPopular">
+                <router-link v-for="movie in item.movies"
+                    :to="'/movie/' + movie.id + '-' + movie.title.split('.')[0]">
+                    <SingleMovieCard :item="movie" :image="movie.poster_path" />
+                </router-link>
+            </div>
+        </div>
+        
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 import Loader from '../src/components/Loader.vue';
 import SingleMovieCard from '../src/components/SingleMovieCard.vue';
-import { useMovieList, useSeriesList, useMovieToprated, useGeneral } from '../stores/list';
+import { useMovieList, useSeriesList, useMovieToprated, useGeneral, useMoviePerGenresList } from '../stores/list';
 const movies = useMovieList();
 const series = useSeriesList();
 const topRated = useMovieToprated();
+const moviesPerGenres = useMoviePerGenresList();
 
 export default {
     data() {
@@ -47,6 +60,7 @@ export default {
             counter2: 0,
             counter3: 0,
             GENERAL: useGeneral(),
+            arrayOfMoviesPerGenres: moviesPerGenres.list ,
 
         };
     },
@@ -79,7 +93,11 @@ export default {
 
 
 
-        }
+        },
+    },
+    mounted(){
+        console.log(this.arrayOfMoviesPerGenres)
+       
     },
     components: { SingleMovieCard, Loader }
 }

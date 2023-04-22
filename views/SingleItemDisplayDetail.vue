@@ -119,7 +119,8 @@ const {
     URL_IMG,
     GOOGLE_PROXY_URL,
     IT,
-    movieGenres
+    movieGenres,
+    tvGenres
 } = useGeneral();
 
 const colorThief = new ColorThief();
@@ -135,6 +136,7 @@ export default {
     data() {
         return {
             movieGenres,
+            tvGenres,
             loading: null,
             isMovie: false,
             isTv: false,
