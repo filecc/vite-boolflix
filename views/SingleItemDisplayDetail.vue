@@ -27,7 +27,7 @@
                     <div class="pb-4 stats">
                         <span v-if="isMovie">{{ itemFound?.release_date?.split('-')[0] }}</span>
                         <span v-if="isTv">{{ itemFound?.first_air_date?.split('-')[0] }}</span>
-                        -
+                        - Lingua originale 
                         <img style="width:20px" :src="'/images/flags/language-' + itemFound?.original_language + '.svg'"
                             :alt="itemFound?.original_language">
                     </div>
@@ -210,6 +210,7 @@ export default {
                 }
 
             })
+            
         },
         getSimilar() {
             const similarQuery = API_URL + this.dbToSearch + this.id + '/recommendations' + API_KEY + '&language=en-US&page=1';
