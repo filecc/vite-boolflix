@@ -27,7 +27,8 @@ const {URL_IMG} = useGeneral();
 
 export default {
     props: {
-        providers: Object
+        providers: Object,
+        title: String
     },
     data(){
         return {
