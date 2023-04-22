@@ -306,7 +306,7 @@ export default {
                     ? this.url = IMG_PLACEHOLDER
                     : this.url = `${URL_IMG}${this.itemFound.poster_path}`;
                 this.backdrop = `${URL_IMG}${this.itemFound.backdrop_path}`;
-                this.backdropForColor = `https://image.tmdb.org/t/p/w500${this.itemFound.backdrop_path}`
+                this.backdropForColor = `https://image.tmdb.org/t/p/w300${this.itemFound.backdrop_path}`
                 this.onLoadPage();
             }).catch(() => {
                 window.location.href = '/404'
