@@ -89,7 +89,8 @@ export default {
             axios.get(query)
                 .then(res => {
                     this.actor = res.data;
-                    this.loading = false;
+                    this.getOtherPhotos();
+                    this.getMovieAndTv();
                 }).catch(() => {
                     window.location.href = '/404';
                 });
@@ -112,14 +113,12 @@ export default {
             axios.get(query).then(res => {
                 if (res.data.cast.length > 0){
                     this.moviesAndTv = res.data.cast;
+                    this.loading = false;
                 }
             }).catch(() => {
                 this.moviesAndTv = null;
+                this.loading = false;
             })
-        },
-        getAll(){
-            this.getActorDetail();
-            this.getOtherPhotos();
         },
         scroll(e, ref, counter) {
             /* PREVENT TRACKPAD TO TRIGGER EVENT MORE THAN ONCE */
@@ -155,8 +154,7 @@ export default {
         const actorID = paramsFromUrl[0];
         this.actorID = actorID;
         this.getActorDetail();
-        this.getOtherPhotos();
-        this.getMovieAndTv();
+        
       
     },
     components: { Loader, ActorsProfile, SingleMovieCard }

@@ -125,7 +125,6 @@ import ActorsProfile from '../src/components/ActorsProfile.vue';
 import CastPreview from '../src/components/CastPreview.vue';
 import SingleMovieCard from '../src/components/SingleMovieCard.vue';
 import { useGeneral } from '../stores/list';
-import { provide, setTransitionHooks } from 'vue';
 
 const {
     API_URL,
@@ -186,7 +185,7 @@ export default {
                     const b = colorThief.getColor(img)[2];
 
                     this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r}, ${g}, ${b}) 80%);`;
-                    this.textColor = `color: rgb(${4*r+20},${4*g+20},${4*b+20});`;
+                    this.textColor = `color: rgb(${4*r+50},${4*g+50},${4*b+50});`;
                     this.bodyColor = `linear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r}, ${g}, ${b}) 80%)`;
                     this.changedBackground = true;
                     this.loading = false;
@@ -228,7 +227,6 @@ export default {
             axios.get(availableProviders)
             .then(res => {
                 this.providers = res.data.results.IT;   
-                console.log(this.providers) 
             }).catch(() => {
                 this.providers = null;
             });
@@ -322,7 +320,6 @@ export default {
                     ? this.url = IMG_PLACEHOLDER
                     : this.url = `${URL_IMG}${this.itemFound.poster_path}`;
                 this.backdrop = `${URL_IMG}${this.itemFound.backdrop_path}`;
-                
                 this.onLoadPage();
             }).catch(() => {
                 window.location.href = '/404'
