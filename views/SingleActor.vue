@@ -120,32 +120,25 @@ export default {
                 this.loading = false;
             })
         },
-        scroll(e, ref, counter) {
+        scroll(e, ref, vfor) {
             /* PREVENT TRACKPAD TO TRIGGER EVENT MORE THAN ONCE */
             if (Math.abs(e.deltaY) < 4) return
-
-
-            let delta = e.deltaY;
-            let box = this.$refs[ref];
-
-            const divScrollable = box.scrollWidth;
-
-            if (this[counter] === 0) {
-
-                this[counter] = 0;
-                delta < 0 ? (this[counter] -= 0) : (this[counter] += 100);
-                box.scrollTo(this[counter], 0);
-            } else if (this[counter] >= divScrollable) {
-
-                delta < 0 ? (this[counter] -= 100) : (this[counter] += 0);
-                box.scrollTo(this[counter], 0);
+            let box;
+            if (vfor) {
+                this.$refs['boxes'].forEach(element => {
+                   
+                    if (element.getAttribute('id') === ref) {
+                        box = element;
+                    }
+                });
             } else {
-
-                delta < 0 ? (this[counter] -= 100) : (this[counter] += 100);
-                box.scrollTo(this[counter], 0);
+                box = this.$refs[ref];
             }
 
-        }
+            box.scrollBy({
+                left: e.deltaY < 0 ? -240 : 240,
+            });
+        },
     },
     mounted() {
        

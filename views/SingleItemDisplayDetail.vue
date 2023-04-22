@@ -74,8 +74,8 @@
 
             <div v-if="similar">
                 <h6 class="pt-5 text-white px-4">Simili a {{ title }}</h6>
-                <div ref="similar" @wheel.stop="e => scroll(e, 'similar', 'counter')" class="containerList">
-                    <router-link @wheel.stop="e => scroll(e, 'similar', 'counter')" v-for="item in similar"
+                <div ref="similar" @wheel.stop="e => scroll(e, 'similar', false)" class="containerList">
+                    <router-link @wheel.stop="e => scroll(e, 'similar', false)" v-for="item in similar"
                         :to="'/' + dbToSearch + item.id + '-' + (isMovie ? item.title : item.name)">
                         <SingleMovieCard :item="item" :image="item.poster_path" />
                     </router-link>
@@ -152,7 +152,6 @@ export default {
             providers: null,
             showCast: false,
             videoKey: null,
-            counter: 0,
             similar: null,
             vote: [],
             changedBackground: false,
@@ -245,32 +244,25 @@ export default {
             /* ALWAYS LAST METHOD TO CALL */
             this.getBackdropColor();
         },
-        scroll(e, ref, counter) {
+        scroll(e, ref, vfor) {
             /* PREVENT TRACKPAD TO TRIGGER EVENT MORE THAN ONCE */
             if (Math.abs(e.deltaY) < 4) return
-
-
-            let delta = e.deltaY;
-            let box = this.$refs[ref];
-
-            const divScrollable = box.scrollWidth;
-
-            if (this[counter] === 0) {
-
-                this[counter] = 0;
-                delta < 0 ? (this[counter] -= 0) : (this[counter] += 100);
-                box.scrollTo(this[counter], 0);
-            } else if (this[counter] >= divScrollable) {
-
-                delta < 0 ? (this[counter] -= 100) : (this[counter] += 0);
-                box.scrollTo(this[counter], 0);
+            let box;
+            if (vfor) {
+                this.$refs['boxes'].forEach(element => {
+                   
+                    if (element.getAttribute('id') === ref) {
+                        box = element;
+                    }
+                });
             } else {
-
-                delta < 0 ? (this[counter] -= 100) : (this[counter] += 100);
-                box.scrollTo(this[counter], 0);
+                box = this.$refs[ref];
             }
 
-        }
+            box.scrollBy({
+                left: e.deltaY < 0 ? -240 : 240,
+            });
+        },
 
     },
     watch: {
