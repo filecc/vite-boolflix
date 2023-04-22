@@ -72,12 +72,12 @@
                 </div>
             </div>
 
-            <div v-if="similar && isMovie">
+            <div v-if="similar">
                 <h6 class="pt-5 text-white px-4">Simili a {{ title }}</h6>
                 <div ref="similar" @wheel.stop="e => scroll(e, 'similar', 'counter')" class="containerList">
-                    <router-link @wheel.stop="e => scroll(e, 'similar', 'counter')" v-for="movie in similar"
-                        :to="'/movie/' + movie.id + '-' + movie.title">
-                        <SingleMovieCard :item="movie" :image="movie.poster_path" />
+                    <router-link @wheel.stop="e => scroll(e, 'similar', 'counter')" v-for="item in similar"
+                        :to="'/' + dbToSearch + item.id + '-' + (isMovie ? item.title : item.name)">
+                        <SingleMovieCard :item="item" :image="item.poster_path" />
                     </router-link>
                 </div>
 
