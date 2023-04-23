@@ -1,7 +1,7 @@
 <template>
   <div class="layoutNav d-flex justify-content-between align-items-center px-4 py-2">
     <router-link to="/">
-      <Navbar />
+      <Navbar @click="changeBackground" />
     </router-link>
     <router-link class="btn btn-outline-primary" to="/search">
       <i class="bi bi-search"></i>
@@ -101,6 +101,9 @@ export default {
         
        
         
+    },
+    changeBackground(){
+      document.querySelector('body').style.background = '#202020';
     }
   },
   mounted() {
