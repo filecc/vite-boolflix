@@ -51,7 +51,7 @@ export default {
             tvResult: null,
             loading: false,
             url_img: null,
-            BASE_URL: 'https://image.tmdb.org/t/p/original',
+            BASE_URL: 'https://image.tmdb.org/t/p/w342',
         };
     },
     methods: {
