@@ -8,25 +8,28 @@
 
         <h5 class="pt-3" v-if="movieResult">Film per la tua ricerca</h5>
         <div v-if="movieResult && !loading" class="containerResults row row-cols-2 row-cols-md-4 row-cols-lg-5">
-            <div v-for="movie in movieResult" class="col p-2">
+            <template v-for="movie in movieResult">
+            <div v-if="movie.poster_path" class="col p-2">
                 <router-link :to="'/movie/' + movie.id + '-' + movie.title">
-                    
                     <div class="card">
                         <img class="img-card-top rounded img-fluid" :src="movie.poster_path ?`${this.BASE_URL}${movie.poster_path}` : 'images/img-placeholder.svg'" :alt="movie.title">          
                      </div>
                 </router-link>
             </div>
+        </template>
             <p v-if="movieResult.length === 0">Nessun risultato trovato.</p>
         </div>
         <h5 class="pt-5" v-if="tvResult">Serie per la tua ricerca</h5>
         <div v-if="tvResult && !loading" class="containerResults row row-cols-2 row-cols-md-4 row-cols-lg-5">
-            <div v-for="serie in tvResult" class="col p-2">
+            <template v-for="serie in tvResult">
+            <div v-if="serie.poster_path" class="col p-2">
                 <router-link :to="'/series/' + serie.id + '-' + serie.name">
                     <div class="card">
                         <img class="img-card-top rounded img-fluid" :src="serie.poster_path ?`${this.BASE_URL}${serie.poster_path}` : 'images/img-placeholder.svg'" :alt="serie.title">          
                      </div>
                 </router-link>
             </div>
+        </template>
             <p v-if="tvResult.length === 0">Nessun risultato trovato.</p>
         </div>
         <div class="text-center" v-else-if="!movieResult && loading">

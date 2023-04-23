@@ -1,5 +1,5 @@
 <template>
-        <div class="card">
+        <div v-if="item.poster_path" class="card">
             <img class="img-card-top rounded" :src="url" :alt="store.pathUrl">          
         </div>
 </template>

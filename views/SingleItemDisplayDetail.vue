@@ -215,7 +215,6 @@ export default {
         },
         getProviders(){
             const availableProviders = API_URL + this.dbToSearch + this.id + '/watch/providers' + API_KEY;
-            console.log(availableProviders);
 
             axios.get(availableProviders)
             .then(res => {

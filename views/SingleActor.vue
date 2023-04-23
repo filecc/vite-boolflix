@@ -46,7 +46,7 @@
 
         <h6 v-if="moviesAndTv" class="py-2 mt-2">Ha recitato in:</h6>
         <div ref="photosContainer" v-if="moviesAndTv" class="containerList mb-3">
-            <router-link v-for="item in moviesAndTv" @wheel.stop="e => scroll(e, 'photosContainer', 'counter1')"
+            <router-link v-for="item in moviesAndTv" @wheel.stop="e => scroll(e, 'photosContainer')"
                             :to="'/' + item.media_type + '/' + item.id + '-' + (item.title || item.name)">
                 <SingleMovieCard  :item="item"/>
             </router-link>
@@ -80,7 +80,6 @@ export default {
             otherPhotos: null,
             divPhotosWidth: null,
             moviesAndTv: null,
-            counter1: 0,
         };
     },
     methods: {
