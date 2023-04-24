@@ -21,8 +21,6 @@
 
 <script>
 import axios from 'axios';
-import SingleMovieCard from '../src/components/SingleMovieCard.vue';
-import Loader from '../src/components/Loader.vue';
 import SearchResult from '../src/components/SearchResult.vue';
 
 export default {
@@ -32,8 +30,6 @@ export default {
             movieResult: null,
             tvResult: null,
             loading: false,
-            url_img: null,
-            BASE_URL: 'https://image.tmdb.org/t/p/w342',
         };
     },
     methods: {
@@ -56,7 +52,7 @@ export default {
             }
         }
     },
-    components: { SingleMovieCard, Loader, SearchResult }
+    components: { SearchResult }
 }
 </script>
 
