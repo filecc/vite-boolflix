@@ -170,6 +170,7 @@ export default {
             let imageURL = this.backdropForColor;
             img.crossOrigin = 'Anonymous';
             img.src = GOOGLE_PROXY_URL + encodeURIComponent(imageURL);
+            
             setTimeout(() => {
                 try {
                     const r = colorThief.getColor(img)[0];
@@ -178,6 +179,13 @@ export default {
 
                     this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r}, ${g}, ${b}) 80%);`;
                     this.textColor = `color: rgb(${4*r+50},${4*g+50},${4*b+50});`;
+                    console.log(this.bgColor)
+                    if (r>200 && g>200 && b>200){
+                        this.textColor = `color: black;`;
+                    }
+                    if (r<50 && g<50 && b<50){
+                        this.textColor = `color: white;`;
+                    }
                     this.bodyColor = `linear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r}, ${g}, ${b}) 80%)`;
                     this.changedBackground = true;
                     this.loading = false;
@@ -185,10 +193,11 @@ export default {
                     this.bgColor = `background: linear-gradient(black, #303030)`;
                     this.bodyColor = `#202020`;
                     this.textColor = 'color: white'
+                    this.loading = false;
                 }
 
-                this.loading = false;
-            }, 500)
+                
+            }, 700)
         },
         getVideos() {
             const videoQueryIT = API_URL + this.dbToSearch + this.id + '/videos' + API_KEY + IT;
