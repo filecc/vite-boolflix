@@ -5,34 +5,12 @@
             <input @input="search" v-model="searchingQuery" class="input-group-text w-100 text-start mb-3" type="text"
                 placeholder="Nome del film o serie TV">
         </div>
+        <template v-if="!loading">
+            <SearchResult :result="movieResult" :loadingState="loading" type="movie" />
+            <SearchResult :result="tvResult" :loadingState="loading" type="tv" />
+        </template>
 
-        <h5 class="pt-3" v-if="movieResult">Film per la tua ricerca</h5>
-        <div v-if="movieResult && !loading" class="containerResults row row-cols-2 row-cols-md-4 row-cols-lg-5">
-            <template v-for="movie in movieResult">
-            <div v-if="movie.poster_path" class="col p-2">
-                <router-link :to="'/movie/' + movie.id + '-' + movie.title">
-                    <div class="card">
-                        <img class="img-card-top rounded img-fluid" :src="movie.poster_path ?`${this.BASE_URL}${movie.poster_path}` : 'images/img-placeholder.svg'" :alt="movie.title">          
-                     </div>
-                </router-link>
-            </div>
-        </template>
-            <p v-if="movieResult.length === 0">Nessun risultato trovato.</p>
-        </div>
-        <h5 class="pt-5" v-if="tvResult">Serie per la tua ricerca</h5>
-        <div v-if="tvResult && !loading" class="containerResults row row-cols-2 row-cols-md-4 row-cols-lg-5">
-            <template v-for="serie in tvResult">
-            <div v-if="serie.poster_path" class="col p-2">
-                <router-link :to="'/series/' + serie.id + '-' + serie.name">
-                    <div class="card">
-                        <img class="img-card-top rounded img-fluid" :src="serie.poster_path ?`${this.BASE_URL}${serie.poster_path}` : 'images/img-placeholder.svg'" :alt="serie.title">          
-                     </div>
-                </router-link>
-            </div>
-        </template>
-            <p v-if="tvResult.length === 0">Nessun risultato trovato.</p>
-        </div>
-        <div class="text-center" v-else-if="!movieResult && loading">
+        <div class="text-center" v-else>
             <div class="spinner-border" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
@@ -45,6 +23,7 @@
 import axios from 'axios';
 import SingleMovieCard from '../src/components/SingleMovieCard.vue';
 import Loader from '../src/components/Loader.vue';
+import SearchResult from '../src/components/SearchResult.vue';
 
 export default {
     data() {
@@ -77,7 +56,7 @@ export default {
             }
         }
     },
-    components: { SingleMovieCard, Loader }
+    components: { SingleMovieCard, Loader, SearchResult }
 }
 </script>
 
@@ -103,6 +82,4 @@ input {
     }
 
 }
-
-
 </style>

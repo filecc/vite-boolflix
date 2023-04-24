@@ -94,6 +94,7 @@ export const useGeneral = defineStore('general', {
         loading: true,
         movieGenres: null,
         tvGenres: null,
+        searchingMode: false,
     }),
     actions: {
         setLoadingTrue() {
@@ -107,6 +108,12 @@ export const useGeneral = defineStore('general', {
         },
         setTvGenres(list){
             this.tvGenres = list
+        },
+        setSearchingModeTrue(){
+            this.searchingMode = true;
+        },
+        setSearchingModeFalse(){
+            this.searchingMode = false;
         }
     }
 })
