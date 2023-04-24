@@ -104,6 +104,7 @@ export default {
     },
     changeBackground(){
       document.querySelector('body').style.background = '#202020';
+      this.GENERAL.setSearchingModeFalse();
     }
   },
   mounted() {

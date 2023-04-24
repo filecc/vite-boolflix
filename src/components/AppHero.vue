@@ -1,12 +1,14 @@
 <template>
     <div :class="GENERAL.searchingMode && 'timeToSearch'" class="mainContainer p-4 hero">
 
-        <div class="row gx-0">
-            
-            <h1 class="col-12 col-md-7 p-0 m-0 pe-3">Tutte l'informazioni sull'intrattenimento che stavi cercando.</h1>
-            <div class="col-12 col-md-5 d-flex align-items-center">
+        <div class="row row-cols-1 row-cols-md-2 gx-0 px-4 align-items-center justify-content-center h-100 mt-5">
+            <div class="col">
+                <h1>Tutte l'informazioni sull&apos;<span>intrattenimento</span> che stavi cercando.</h1>
+            </div>
+           
+            <div class="col d-flex align-items-center">
                 <input  @input="startSearch" v-model="searchQuery" @focusin="startSearch" @focusout="finishSearch"
-                class="input-group-text text-start mt-5 mt-md-0" type="text" placeholder="Cerca...">
+                class="input-group-text text-start mt-2 mt-md-0 ms-md-3" type="text" placeholder="Cerca un film o una serie TV">
             </div>
             
         </div>
@@ -14,7 +16,7 @@
         
     </div>
     <Transition>
-            <div class="pt-5" v-if="GENERAL.searchingMode">
+            <div class="pt-5 px-4" v-if="GENERAL.searchingMode">
                 <SearchResult type="movie" :result="movieResult" :loadingState="loading" />
                 <SearchResult type="tv" :result="tvResult" :loadingState="loading" />
             </div>
@@ -45,6 +47,7 @@ export default {
                 GENERAL.setSearchingModeFalse();
                 this.movieResult = null; 
                 this.tvResult = null;
+                this.searchQuery = null;
             }
             else {
                 this.search();
@@ -74,8 +77,6 @@ export default {
 
 .mainContainer {
     height: 50vh;
-    display: grid;
-    place-items: center;
     transition: all 0.3s linear;
 }
 .hero{
@@ -85,6 +86,16 @@ export default {
 }
 h1{
     font-size: 30px;
+    
+    span{
+    color: white;
+    background: -webkit-linear-gradient(to right, $fg-primary, #eee, $fg-primary);
+    background: linear-gradient(to right, $fg-primary, #eee, $fg-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    }
+    
 }
 
 .timeToSearch {
