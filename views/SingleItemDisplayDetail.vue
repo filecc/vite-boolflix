@@ -13,8 +13,8 @@
             <div class="bodyDiv">
             <div class="info py-2 px-3 px-md-4 d-md-flex" :style="textColor">
 
-                <div class="text-center text-white text-md-start col-12 col-md-5">
-                    <h3 class="text-center text-md-start text-white fw-bold pt-4">{{ title }}</h3>
+                <div class="text-center text-md-start col-12 col-md-5">
+                    <h3 class="text-center text-md-start fw-bold pt-4">{{ title }}</h3>
                     <span>{{ itemFound?.original_title }}</span>
                     <div class="stats">
                         <span class="badge rounded-pill text-bg-info my-1">
@@ -48,9 +48,9 @@
                 </div>
 
             </div>
-            <div class="d-md-flex px-4">
+            <div class="d-md-flex px-4" :style="textColor">
                 <div class="col-12 col-md-5 text-center">
-                    <h6 class="text-center text-md-start fw-bold text-white pt-3">
+                    <h6 class="text-center text-md-start fw-bold pt-3">
                         Cast
                         <span class="ms-2 badge rounded-pill text-bg-primary d-inline-block showall"
                             @click="() => showCast = true">
@@ -65,15 +65,15 @@
 
                 <!-- TRAILER -->
                 <div class="col-12 col-md-7 d-flex flex-column" v-if="videoKey">
-                    <h6 class="text-center text-md-start fw-bold text-white py-3">Trailer</h6>
+                    <h6 class="text-center text-md-start fw-bold py-3">Trailer</h6>
                     <iframe width="100%" height="300px" :src="'https://www.youtube.com/embed/' + videoKey" frameborder="0"
                         allowfullscreen>
                     </iframe>
                 </div>
             </div>
 
-            <div v-if="similar">
-                <h6 class="pt-5 text-white px-4">Simili a {{ title }}</h6>
+            <div v-if="similar" :style="textColor">
+                <h6 class="pt-5 px-4">Simili a {{ title }}</h6>
                 <div ref="similar" @wheel.stop="e => scroll(e, 'similar', false)" class="containerList">
                     <router-link @wheel.stop="e => scroll(e, 'similar', false)" v-for="item in similar"
                         :to="'/' + dbToSearch + item.id + '-' + (isMovie ? item.title : item.name)">

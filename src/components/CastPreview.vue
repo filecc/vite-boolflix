@@ -1,7 +1,7 @@
 <template>
 
 
-        <div v-if="actors" class="row row-cols-2  gx-0 text-white">
+        <div v-if="actors" class="row row-cols-2  gx-0">
             <div v-for="actor in [0,1,2,3]">
                 <div v-if="actors[actor]" class="col text-center p-2">
                 <router-link :to="'/actors/' + actors[actor].id + '-' + actors[actor].name">
@@ -10,7 +10,7 @@
                     store.URL_IMG + actors[actor].profile_path 
                     : '/images/img-placeholder.svg'" :alt="actors[actor].name">
                 </router-link>
-                <h6 class="mt-2 text-white">{{ actors[actor]?.name }}</h6>
+                <h6 class="mt-2 fw-bold">{{ actors[actor]?.name }}</h6>
                 <small>({{ actors[actor]?.character }})</small>
             </div>
             </div>
