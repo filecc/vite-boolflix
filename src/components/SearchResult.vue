@@ -6,7 +6,7 @@
                     <router-link :to="'/' + type + '/' + item.id + '-' + (type === 'movie' ? item.title : item.name)">
                         <div class="card">
                             <img class="img-card-top rounded img-fluid"
-                                :src="item.poster_path ? `${GENERAL.URL_IMG}${item.poster_path}` : 'images/img-placeholder.svg'"
+                                :src="item.poster_path ? `${GENERAL.URL_IMGLOW}${item.poster_path}` : 'images/img-placeholder.svg'"
                                 :alt="item.title">
                         </div>
                     </router-link>
