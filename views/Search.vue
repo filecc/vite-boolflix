@@ -2,8 +2,12 @@
     <div class="pt-5 px-4 mainContainer" style="background-color: #202020;">
         <div class="flex-grow-1">
             <h5>Cerca</h5>
-            <input @input="search" v-model="searchingQuery" class="input-group-text w-100 text-start mb-3" type="text"
+            <div class="d-flex justify-content-between align-items-center">
+                <input @input="search" v-model="searchingQuery" class="input-group-text w-100 text-start" type="text"
                 placeholder="Nome del film o serie TV">
+                <button ref="buttonReset" @click="cancelSearch" class="btn btn-danger ms-3" disabled>Annulla</button>
+            </div>
+           
         </div>
         <template v-if="!loading">
             <SearchResult :result="movieResult" :loadingState="loading" type="movie" />
@@ -35,6 +39,7 @@ export default {
     methods: {
         search() {
             if (this.searchingQuery.length > 0) {
+                this.$refs['buttonReset'].disabled = false;
                 this.loading = true;
                 axios.get(`https://api.themoviedb.org/3/search/movie?api_key=c60495b897d3871eb954459412ca5d5d&language=it&query=${this.searchingQuery}`).then(res => {
                     this.movieResult = res.data.results;
@@ -46,10 +51,18 @@ export default {
                 })
             }
             if (this.searchingQuery.length <= 0) {
+                this.$refs['buttonReset'].disabled = true;
                 this.loading = false
                 this.tvResult = null;
                 this.movieResult = null;
             }
+        },
+        cancelSearch(){
+            this.$refs['buttonReset'].disabled = true;
+            this.loading = false
+            this.tvResult = null;
+            this.movieResult = null;
+            this.searchingQuery = '';
         }
     },
     components: { SearchResult }
