@@ -71,7 +71,47 @@
                     </iframe>
                 </div>
             </div>
+            <div v-if="itemFound && episodesDetails" class="row py-3 px-4 text-center gx-0" :style="textColor">
+               
+                        <div class="col-12 col-md-5">
+                            <h6 class="fw-bold text-start">Stagioni</h6>
+                            <div class="row row-cols-4 row-cols-md-1 gx-0">
+                                <template v-for="item in itemFound.seasons">
+                                    <div v-if="item.season_number != 0"  class="col pb-1 px-2 w-md-100">
+                                        <button  :class="(item.season_number === seasonSelected) && 'disabled'" @click="getSeasonData(itemFound.id, item.season_number)"  class="btn btn-primary w-100 fw-bold fs-2">{{ item.season_number }}</button>
+                                    </div>
+                                </template>
+                            </div>
+                               
+                        </div>
+                
+                        <div class="col-12 col-md-7">
+                                <p class="pt-2 p-md-0" v-if="episodesDetails.episodes.length > 0">Espisodi: {{ episodesDetails.episodes.length }}</p>
+                                <p v-else>Nessun episodio disponibile.</p>
 
+                                <div class="accordion">
+                                  <div v-for="episode in episodesDetails.episodes" class="accordion-item mb-2">
+                                    <h2 v-if="episode.name" class="accordion-header">
+                                      <button @click="() => episodeSelectedID = episode.id" :class="(episodeSelectedID != episode.id) && 'collapsed'"  class="accordion-button" type="button" > <!-- collapsed -->
+                                         S{{seasonSelected}}E<span class="fw-bold">{{ episode.episode_number}}</span>: <span class="fw-bold ms-1">{{ episode.name }}</span>
+                                      </button>
+                                    </h2>
+                                    <div :class="(episodeSelectedID === episode.id) && 'show'" v-if="episode.overview" class="accordion-collapse collapse" > <!-- collapse -->
+                                      <div class="accordion-body">
+                                       <p>{{ episode.overview }}</p>
+                                      </div>
+                                    </div>
+                                    <div v-else :class="(episodeSelectedID === episode.id) && 'show'" class="accordion-collapse collapse" > <!-- collapse -->
+                                      <div class="accordion-body">
+                                       <p>Nessuna informazione.</p>
+                                      </div>
+                                    </div>
+                                  </div>      
+                                </div>
+                        </div>
+                </div>
+
+            <!-- SIMILAR MOVIE/TV SHOWS -->
             <div v-if="similar" :style="textColor">
                 <h6 class="pt-5 px-4">Simili a {{ title }}</h6>
                 <div ref="similar" @wheel.stop="e => scroll(e, 'similar', false)" class="containerList">
@@ -157,7 +197,12 @@ export default {
             vote: [],
             changedBackground: false,
             bodyColor: '#202020',
-            imgURL: null
+            imgURL: null,
+            seasonsCount: null,
+            seasonSelected: 1,
+            episodesDetails: null,
+            episodeSelectedID: null,
+            onAir: null
         }
     },
     methods: {
@@ -243,12 +288,25 @@ export default {
 
             }
         },
+        getSeasonData(tvID, number){
+            this.seasonSelected = number;
+            /* https://api.themoviedb.org/3/tv/1396/season/1?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT */
+            const query = API_URL + this.dbToSearch + tvID + '/season/' + number + API_KEY + IT;
+            console.log(query)
+            axios.get(query).then(res => {
+                this.episodesDetails = res.data;
+            })
+
+        },
         onLoadPage() {
             this.getVote();
             this.getCastInfo();
             this.getVideos();
             this.getSimilar();
             this.getProviders();
+            if (this.itemFound.seasons && (this.itemFound.seasons)){
+               this.getSeasonData(this.itemFound.id, 1)
+            };
             /* ALWAYS LAST METHOD TO CALL */
             this.getBackdropColor();
         },
