@@ -1,5 +1,5 @@
 <template>
-    <div class="pt-5 px-4 mainContainer">
+    <div class="pt-5 px-4 mainContainer" style="background-color: #202020;">
         <div class="flex-grow-1">
             <h5>Cerca</h5>
             <input @input="search" v-model="searchingQuery" class="input-group-text w-100 text-start mb-3" type="text"

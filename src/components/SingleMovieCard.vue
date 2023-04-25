@@ -5,25 +5,33 @@
 </template>
 
 <script>
-import { useMovieList } from '../../stores/list';
+import { useMovieList, useGeneral } from '../../stores/list';
 const store = useMovieList();
+const GENERAL = useGeneral();
 
 export default {
 
     props: {
         item: Object,
+        quality: String
     },
     data() {
         return {
             store,
-            BASE_URL: store.URL_IMG,
+            BASE_URL: GENERAL.URL_IMG,
+            BASE_URLLOW: GENERAL.URL_IMGLOW,
             url: null
         }
     },
     mounted() {
-        !this.item.poster_path 
-                ? this.url = '/images/img-placeholder.svg'
-                : this.url = `${this.BASE_URL}${this.item.poster_path}`;
+        if (!this.item.poster_path){
+            this.url = '/images/img-placeholder.svg'
+        } else {
+            this.quality === 'low'
+            ? this.url = `${this.BASE_URLLOW}${this.item.poster_path}`
+            : this.url = `${this.BASE_URL}${this.item.poster_path}`
+
+        }
     }
 }
 </script>

@@ -13,14 +13,14 @@
             <div class="col">
                 <h2 class="mt-2 text-white">{{ actor?.name }}</h2>
                 <p v-if="actor.birthday">Data di nascita: {{
-                    actor.birthday.split('-')[1] + '-' +
                     actor.birthday.split('-')[2] + '-' +
+                    actor.birthday.split('-')[1] + '-' +
                     actor.birthday.split('-')[0]
                 }} <span v-if="!actor.deathday">{{ ` (${parseInt(todayYear) - parseInt(actor.birthday.split('-')[0])}
                         anni)`}}</span></p>
                 <p v-if="actor.deathday">Data di morte: {{
-                    actor.deathday.split('-')[1] + '-' +
                     actor.deathday.split('-')[2] + '-' +
+                    actor.deathday.split('-')[1] + '-' +
                     actor.deathday.split('-')[0] + ` (${parseInt(actor.deathday) - parseInt(actor.birthday)} anni)`
                 }}</p>
                 <p v-if="actor.place_of_birth">{{ actor.place_of_birth }}</p>

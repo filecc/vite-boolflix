@@ -77,7 +77,7 @@
                 <div ref="similar" @wheel.stop="e => scroll(e, 'similar', false)" class="containerList">
                     <router-link @wheel.stop="e => scroll(e, 'similar', false)" v-for="item in similar"
                         :to="'/' + dbToSearch + item.id + '-' + (isMovie ? item.title : item.name)">
-                        <SingleMovieCard :item="item" :image="item.poster_path" />
+                        <SingleMovieCard :item="item" :image="item.poster_path" quality="low" />
                     </router-link>
                 </div>
 

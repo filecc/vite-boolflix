@@ -7,8 +7,14 @@
             </div>
            
             <div class="col d-flex align-items-center">
-                <input  @input="startSearch" v-model="searchQuery" @focusin="startSearch" @focusout="finishSearch"
-                class="input-group-text text-start mt-2 mt-md-0 ms-md-3" type="text" placeholder="Cerca un film o una serie TV">
+                <div class="inputHolder">
+                    <input  @input="startSearch" v-model="searchQuery" @focusin="startSearch" @focusout="finishSearch"
+                class="input-group-text text-start" type="text" placeholder="Cerca un film o una serie TV">
+                    <div v-if="GENERAL.searchingMode" class="d-flex justify-content-end align-items-center resetButton">
+                        <button @click="resetSearch" class="btn btn-outline-danger btn-sm">Annulla</button>
+                    </div>
+                </div>
+               
             </div>
             
         </div>
@@ -66,6 +72,12 @@ export default {
                 this.tvResult = null;
                 this.movieResult = null;
             }
+        },
+        resetSearch(){
+            this.tvResult = null;
+            this.movieResult = null;
+            this.searchQuery = '';
+            this.GENERAL.setSearchingModeFalse();
         }
     },
     components: { SearchResult }
@@ -80,7 +92,7 @@ export default {
     transition: all 0.3s linear;
 }
 .hero{
-    background: url('../../public/images/bg-hero.svg');
+    background: url('../../images/bg-hero.svg');
     background-size: cover;
     background-repeat: no-repeat;
 }
@@ -116,5 +128,20 @@ input {
         width: 100% !important;
     }
 
+}
+
+.inputHolder{
+    position: relative;
+    width: 100%;
+}
+
+.resetButton{
+    position: absolute;
+    top: 50%;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    transform: translate3d(0, -50%, 0);
+    margin-right: 5px;
 }
 </style>
