@@ -74,7 +74,7 @@
             <div v-if="itemFound && episodesDetails" class="row py-3 px-4 text-center gx-0" :style="textColor">
                
                         <div class="col-12 col-md-5">
-                            <h6 class="fw-bold text-start">Stagioni</h6>
+                            <h6 class="fw-bold text-start ">Stagioni</h6>
                             <div class="row row-cols-4 row-cols-md-1 gx-0">
                                 <template v-for="item in itemFound.seasons">
                                     <div v-if="item.season_number != 0"  class="col pb-1 px-2 w-md-100">
@@ -82,7 +82,7 @@
                                     </div>
                                 </template>
                             </div>
-                               
+                                
                         </div>
                 
                         <div class="col-12 col-md-7">
