@@ -7,7 +7,7 @@
         <Transition>
             <div v-if="!GENERAL.searchingMode" class="p-4">
 
-                <h2 class="pt-5">Film Popolari</h2>
+                <h2>Film Popolari</h2>
                 <div @whee.stop="e => scroll(e, 'movie_container')" ref="movie_container" class="containerPopular">
                     <router-link @wheel.stop="e => scroll(e, 'movie_container')" v-for="movie in movies.list"
                         :to="'/movie/' + movie.id + '-' + movie.title.split('.')[0]">

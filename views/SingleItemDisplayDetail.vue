@@ -179,7 +179,6 @@ export default {
 
                     this.bgColor = `background: linear-gradient(rgb(${r}, ${g}, ${b}) 80%, rgb(${r}, ${g}, ${b}) 80%);`;
                     this.textColor = `color: rgb(${4*r+50},${4*g+50},${4*b+50});`;
-                    console.log(this.bgColor)
                     if (r>200 && g>200 && b>200){
                         this.textColor = `color: black;`;
                     }
