@@ -87,7 +87,7 @@
                 
                         <div class="col-12 col-md-7">
                                 <p class="pt-2 p-md-0" v-if="episodesDetails.episodes.length > 0">Espisodi: {{ episodesDetails.episodes.length }}</p>
-                                <p v-else>Nessun episodio disponibile.</p>
+                                <p v-else>Nessun episodio disponibile</p>
 
                                 <div class="accordion">
                                   <div v-for="episode in episodesDetails.episodes" class="accordion-item mb-2">
