@@ -290,11 +290,11 @@ export default {
         },
         getSeasonData(tvID, number){
             this.seasonSelected = number;
-            /* https://api.themoviedb.org/3/tv/1396/season/1?api_key=c60495b897d3871eb954459412ca5d5d&language=it-IT */
             const query = API_URL + this.dbToSearch + tvID + '/season/' + number + API_KEY + IT;
-            console.log(query)
             axios.get(query).then(res => {
                 this.episodesDetails = res.data;
+            }).catch(() => {
+                this.episodesDetails = null;
             })
 
         },
