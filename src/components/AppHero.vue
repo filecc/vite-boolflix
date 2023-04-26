@@ -9,7 +9,7 @@
             <div class="col d-flex align-items-center">
                 <div class="inputHolder">
                     <input  @input="startSearch" v-model="searchQuery" @focusin="startSearch" @focusout="finishSearch"
-                class="input-group-text text-start" type="text" placeholder="Cerca un film o una serie TV">
+                class="input-group-text bg-dark text-start text-white border-0" type="text" placeholder="Cerca un film o una serie TV">
                     <div v-if="GENERAL.searchingMode" class="d-flex justify-content-end align-items-center resetButton">
                         <button @click="resetSearch" class="btn btn-outline-danger btn-sm">Annulla</button>
                     </div>
@@ -99,6 +99,10 @@ export default {
 h1{
     font-size: 30px;
     
+    @media screen and (min-width: 1100px) {
+        font-size: 60px;
+    }
+
     span{
     color: white;
     background: -webkit-linear-gradient(to right, $fg-primary, #eee, $fg-primary);
@@ -126,13 +130,23 @@ input {
 
     .timeToSearch {
         width: 100% !important;
+       
     }
+    @media screen and (min-width: 1100px) {
+       max-width: 350px;
+    }
+   
 
 }
 
 .inputHolder{
     position: relative;
     width: 100%;
+
+    @media screen and (min-width: 1100px) {
+        display: flex;
+        justify-content: end;
+    }
 }
 
 .resetButton{

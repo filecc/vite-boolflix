@@ -90,9 +90,9 @@
                                 <p v-else>Nessun episodio disponibile</p>
 
                                 <div class="accordion">
-                                  <div v-for="episode in episodesDetails.episodes" class="accordion-item mb-2">
+                                  <div v-for="episode in episodesDetails.episodes" class="accordion-item mb-2 bg-dark text-white">
                                     <h2 v-if="episode.name" class="accordion-header">
-                                      <button @click="() => episodeSelectedID = episode.id" :class="(episodeSelectedID != episode.id) && 'collapsed'"  class="accordion-button" type="button" > <!-- collapsed -->
+                                      <button @click="() => episodeSelectedID = episode.id" :class="(episodeSelectedID != episode.id) && 'collapsed bg-primary-subtle'"  class="accordion-button bg-dark text-primary" type="button" > <!-- collapsed -->
                                          S{{seasonSelected}}E<span class="fw-bold">{{ episode.episode_number}}</span>: <span class="fw-bold ms-1">{{ episode.name }}</span>
                                       </button>
                                     </h2>
@@ -466,5 +466,11 @@ export default {
     }
 }
 
+.accordion-button{
+   
+    &:after{
+        filter: invert(1) brightness(2) saturate(0);
+    }
+}
 
 </style>
