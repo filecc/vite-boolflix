@@ -73,7 +73,7 @@ And thanks to [Mohamed Ashraf](https://github.com/MohmmedAshraf/blade-flags/tree
 
 ## Request and Hint
 
-If you have something to say just head up at Instragm or Twitter. ☺️
+If you have something to say just head up at Instagram or Twitter. ☺️
 
 ## Author
 
